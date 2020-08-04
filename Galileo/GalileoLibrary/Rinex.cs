@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -146,31 +147,6 @@ namespace Galileo
                 NavigationFile = new Classes.RinexNavigation();
                 string header = fisier.Split("END OF HEADER")[0];
                 string[] liniiHeader = header.Split('\n');
-
-                foreach (string linie in liniiHeader)
-                {
-                    if (linie.Contains("IONOSPHERIC CORR"))
-                    {
-                       
-                        if (linie.Contains("GAL"))
-                        {
-                           
-                            NavigationFile.IonosphericCorr = linie.Replace("GAL", "").Replace("IONOSPHERIC CORR","");
-                        }
-                    }
-                    
-                    if (linie.Contains("TIME SYSTEM CORR"))
-                    {
-                     
-
-                        if (linie.Contains("GAUT"))
-                        {
-                           
-                            NavigationFile.TimeSystemCorr = linie.Replace("GAUT","").Replace("TIME SYSTEM CORR","");
-                        }
-                    }
-                    
-                }
             }
 
             return true;
