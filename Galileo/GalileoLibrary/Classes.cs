@@ -274,7 +274,7 @@ namespace Galileo.Classes
         /// <summary>
         /// Rinex Version
         /// </summary>
-        public string Version { get; internal set; }
+        public float Version { get; internal set; }
 
         /// <summary>
         /// Satellite System:

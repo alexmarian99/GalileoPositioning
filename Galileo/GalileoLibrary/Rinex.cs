@@ -149,6 +149,33 @@ namespace Galileo
                 string[] liniiHeader = header.Split('\n');
                 foreach (string linie in liniiHeader)
                 {
+                    if (linie.Contains("RINEX VERSION / TYPE"))
+                    {
+                        linie.Replace("RINEX VERSION / TYPE", "");
+                        string[] param = regex.Replace(linie, " ").Split(" ");
+                        NavigationFile.Version = float.Parse(param[1]);
+                        if (param[7].ToLower() == "mixed")
+                        {
+                            NavigationFile.Type = Enums.Rinex.Types.Mixed;
+                        }
+                        else if (param[7].ToLower() == "galileo")
+                        {
+                            NavigationFile.Type = Enums.Rinex.Types.Galileo;
+                        }
+                        else 
+                            return false;
+                    }
+                    else if (linie.Contains("PGM / RUN BY / DATE"))
+                    {
+                        linie.Replace("PGM / RUN BY / DATE", "");
+                        string[] param = regex.Replace(linie, " ").Split(" ");
+                        NavigationFile.PGM = param[0] + " " + param[1];
+                        NavigationFile.RunBy = param[2];
+                        NavigationFile.Date = DateTime.SpecifyKind(DateTime.ParseExact(param[3] + param[4], "yyyyMMddHHmmss", CultureInfo.InvariantCulture), DateTimeKind.Utc);
+                    }
+                }
+                foreach (string linie in liniiHeader)
+                {
                     if (linie.Contains("IONOSPHERIC CORR"))
                     {
 
