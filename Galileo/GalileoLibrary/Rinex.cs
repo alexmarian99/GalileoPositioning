@@ -143,7 +143,9 @@ namespace Galileo
 
             else if (fisier.Contains("NAV DATA"))
             {
-
+                NavigationFile = new Classes.RinexNavigation();
+                string header = fisier.Split("END OF HEADER")[0];
+                string[] liniiHeader = header.Split('\n');
             }
 
             return true;
