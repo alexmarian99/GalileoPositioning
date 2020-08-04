@@ -6,7 +6,9 @@ namespace Galileo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Galileo.Rinex fisRinex = new Rinex();
+            fisRinex.ReadFIle(@"caleFisier");
+            Console.WriteLine(fisRinex.ObservationFile.Comments);
         }
     }
 }

@@ -1,0 +1,16 @@
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\Galileo.exe
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\Galileo.deps.json
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\Galileo.runtimeconfig.json
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\Galileo.runtimeconfig.dev.json
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\Galileo.dll
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\Galileo.pdb
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\GalileoLibrary.dll
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\bin\Debug\netcoreapp3.1\GalileoLibrary.pdb
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.csprojAssemblyReference.cache
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.AssemblyInfoInputs.cache
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.AssemblyInfo.cs
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.csproj.CoreCompileInputs.cache
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.csproj.CopyComplete
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.dll
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.pdb
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo\obj\Debug\netcoreapp3.1\Galileo.genruntimeconfig.cache
