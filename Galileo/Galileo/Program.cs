@@ -9,24 +9,13 @@ namespace Galileo
     {
         static void Main(string[] args)
         {
-            /*Galileo.Rinex fisRinex = new Rinex();
-            fisRinex.ReadFIle(@"caleFisier");
-            Console.WriteLine(fisRinex.ObservationFile.Comments);*/
+            Galileo.Rinex fisRinex = new Rinex();
+            fisRinex.ReadFIle(@"D:\M0SE00ITA_R_20201970000_01D_30S_MO.rnx");
+            Console.WriteLine(fisRinex.ObservationFile.Entries[0].Satellites[0].Data[0]);
 
-            string fisier = File.ReadAllText(@"D:\navData.rnx");
+            /*string fisier = File.ReadAllText(@"D:\M0SE00ITA_R_20201970000_01D_30S_MO.rnx");
             string continut = fisier.Split("END OF HEADER")[1];
-            string[] intrare = continut.Split('\n');
-
-            EntryNavigation entry = new EntryNavigation();
-            /*            double x = Double.Parse(intrare[1].Split(" ")[7], CultureInfo.InvariantCulture);
-            */
-            double x = double.Parse("2.541998401284", CultureInfo.InvariantCulture);
-            int p = 05;
-            x -= p;
-            string putere = "-02";
-            double y = 0.170000000000D * Math.Pow(10, Convert.ToInt32(putere));
-            Console.WriteLine(x);
-            Console.WriteLine(y);
+            Console.WriteLine(continut.Split("> ")[1].Split('\n'));*/
         }
     }
 }

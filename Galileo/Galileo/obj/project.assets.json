@@ -27,23 +27,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\andre\\.nuget\\packages\\": {},
+    "C:\\Users\\AlexMarian\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\BroLake\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+      "projectUniqueName": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
       "projectName": "Galileo",
-      "projectPath": "D:\\BroLake\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
-      "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-      "outputPath": "D:\\BroLake\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
+      "projectPath": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+      "packagesPath": "C:\\Users\\AlexMarian\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AlexMarian\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -57,8 +57,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\BroLake\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
-              "projectPath": "D:\\BroLake\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
+            "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
+              "projectPath": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
             }
           }
         }

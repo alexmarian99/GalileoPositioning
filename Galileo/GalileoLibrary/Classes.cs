@@ -76,17 +76,17 @@ namespace Galileo.Classes
         /// <summary>
         /// Receiver details
         /// </summary>
-        public receiver Receiver { get; internal set; }
+        public receiver Receiver { get; internal set; } = new receiver();
 
         /// <summary>
         /// Antenna details
         /// </summary>
-        public antenna Antenna { get; internal set; }
+        public antenna Antenna { get; internal set; } = new antenna();
 
         /// <value>
         /// Approx. position XYZ
         /// </value>
-        public position Position { get; internal set; }
+        public position Position { get; internal set; } = new position();
 
         /// <summary>
         /// Number of columns and type of data recorded
@@ -160,7 +160,7 @@ namespace Galileo.Classes
         /// <summary>
         /// Leap seconds details
         /// </summary>
-        public leapseconds LeapSeconds { get; internal set; }
+        public leapseconds LeapSeconds { get; internal set; } = new leapseconds();
 
         /// <summary>
         /// Records from satellites
@@ -249,7 +249,7 @@ namespace Galileo.Classes
         /// <summary>
         /// Data array
         /// </summary>
-        public double[] Data { get; internal set; }
+        public List<double> Data { get; internal set; }
     }
 
     public class record
