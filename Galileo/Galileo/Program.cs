@@ -17,5 +17,6 @@ namespace Galileo
             string continut = fisier.Split("END OF HEADER")[1];
             Console.WriteLine(continut.Split("> ")[1].Split('\n'));*/
         }
+        //buna
     }
 }
