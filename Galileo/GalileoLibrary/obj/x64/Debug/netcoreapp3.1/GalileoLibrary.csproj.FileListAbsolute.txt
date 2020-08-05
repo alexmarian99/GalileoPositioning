@@ -1,0 +1,9 @@
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\bin\x64\Debug\netcoreapp3.1\GalileoLibrary.deps.json
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\bin\x64\Debug\netcoreapp3.1\GalileoLibrary.dll
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\bin\x64\Debug\netcoreapp3.1\GalileoLibrary.pdb
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\obj\x64\Debug\netcoreapp3.1\GalileoLibrary.csprojAssemblyReference.cache
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\obj\x64\Debug\netcoreapp3.1\GalileoLibrary.AssemblyInfoInputs.cache
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\obj\x64\Debug\netcoreapp3.1\GalileoLibrary.AssemblyInfo.cs
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\obj\x64\Debug\netcoreapp3.1\GalileoLibrary.csproj.CoreCompileInputs.cache
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\obj\x64\Debug\netcoreapp3.1\GalileoLibrary.dll
+D:\BroLake\GalileoPositioning\Galileo\GalileoLibrary\obj\x64\Debug\netcoreapp3.1\GalileoLibrary.pdb
