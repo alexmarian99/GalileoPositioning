@@ -12,29 +12,46 @@ namespace Galileo
 {
     public class Rinex
     {
+        // Regex variable for removing multiple spaces
         private static RegexOptions options = RegexOptions.None;
         private static Regex regex = new Regex("[ ]{2,}", options);
-        public Classes.RinexObservation ObservationFile { get; internal set; }
 
+        /// <summary>
+        /// The structure of a <b>Rinex Observation</b> file
+        /// </summary>
+        public Classes.RinexObservation ObservationFile { get; internal set; } = new RinexObservation();
+
+        /// <summary>
+        /// The structure of a <b>Navigation Observation</b> file
+        /// </summary>
         public Classes.RinexNavigation NavigationFile { get; internal set; }
 
+        /// <summary>
+        /// Reads a Rinex observation or navigation file and uploads it to the current object.
+        /// </summary>
+        /// <param name="path">File path</param>
+        /// <returns>True if the operation was successful or false in case of an error</returns>
         public bool ReadFIle(string path)
         {
-            // Citirea de fisier ca text
+            // Reads the file from the specified path as a text
             string fisier = File.ReadAllText(path);
 
-            // Se verifica daca este un fisier de navigatie sau de observatie
+            // Check if it is an observation or navigation file
             if (!(fisier.Contains("OBSERVATION DATA") || fisier.Contains("NAV DATA")))
             {
                 return false;
             }
 
+            // Filling in data in case is an observation file
             if (fisier.Contains("OBSERVATION DATA"))
             {
-                ObservationFile = new Classes.RinexObservation();
+                // Only the header part is selected
                 string header = fisier.Split("END OF HEADER")[0];
+
+                // Separate each line from each other
                 string[] liniiHeader = header.Split('\n');
 
+                // Go through each line to load the data
                 foreach (string linie in liniiHeader)
                 {
                     if (linie.Contains("RINEX VERSION / TYPE"))
@@ -200,6 +217,7 @@ namespace Galileo
                     }
                 }
 
+                // The part after the header, the one containing the data, is loaded
                 string continut = fisier.Split("END OF HEADER")[1];
                 List<string> records = continut.Split("> ").ToList();
                 records.Remove(records.First());
@@ -243,6 +261,7 @@ namespace Galileo
 
             }
 
+            // Filling in data in case is an navigation file
             else if (fisier.Contains("NAV DATA"))
             {
                 NavigationFile = new Classes.RinexNavigation();

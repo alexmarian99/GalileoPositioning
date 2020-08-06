@@ -15,3 +15,4 @@ C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csproj.CoreCompileInputs.cache
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.dll
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.pdb
+C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csprojAssemblyReference.cache
