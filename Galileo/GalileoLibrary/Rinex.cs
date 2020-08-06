@@ -232,11 +232,6 @@ namespace Galileo
                             Name = name,
                             Data = values
                         });
-                        toAdd.Satellites.Add(new entry()
-                        {
-                            Name = name,
-                            Data = values
-                        });
                     }
                     ObservationFile.Entries.Add(toAdd);
                 }
@@ -279,9 +274,39 @@ namespace Galileo
                             NavigationFile.TimeSystemCorr = linie.Replace("GAUT", "").Replace("TIME SYSTEM CORR", "");
 
                 }
+
+                string[] sep = { "G", "E", "R", "C", "S" };
+                string continut = fisier.Split("END OF HEADER")[1];
+                List<string> satellite = continut.Split(sep,StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (string intrare in satellite)
+                {
+                    if (!intrare.Contains("E"))
+                        continue;
+                    else
+                    {
+                        List<string> Groups = intrare.Split('\n').ToList();
+                        foreach (string group in Groups)
+                        {
+                            List<string> DATA = regex.Replace(group, " ").Split(" ").ToList();
+                            string name = DATA[0];
+                            string dateTime = DATA[1] + " " + DATA[2] + " " + DATA[3] + " " + DATA[4] + " " + DATA[5] + " " + DATA[6];
+                            Classes.EntryNavigation toadd = new EntryNavigation();
+                            toadd.Date = DateTime.SpecifyKind(DateTime.ParseExact(dateTime, "yyyy MM dd HH mm s.fffffff", CultureInfo.InvariantCulture), DateTimeKind.Unspecified);
+                            string[] Sep = { "D-", "D+" };
+                            string[] data = DATA[7].Split(Sep,StringSplitOptions.None);
+                            double value = Convert.ToDouble(data[0]) * Math.Pow(10, Convert.ToDouble(data[1]));
+                            
+                        }
+                    }
+                        
+                }
             }
+            //################
+
+
 
             return true;
         }
+
     }
 }
