@@ -11,9 +11,15 @@ namespace Galileo.Classes
     public class RinexObservation
     {
         /// <value>
-        /// Rinex Version
+        /// Format version
         /// </value>
         public float Version { get; internal set; }
+
+        /// <summary>
+        /// File type
+        /// </summary>
+        /// <value><b>O</b> for Observation Data</value>
+        public Galileo.Enums.Rinex.Types Type { get; internal set; }
 
         /// <summary>
         /// Satellite System:
@@ -30,15 +36,15 @@ namespace Galileo.Classes
         /// <item>Mixed (Multiple types of satellites used)</item>
         /// </list>
         /// </value>
-        public Galileo.Enums.Rinex.Types Type { get; internal set; }
+        public Galileo.Enums.Rinex.SatelliteSystems SatelliteSystem { get; internal set; }
 
         /// <value>
-        /// Name of the program that created this file
+        /// Name of program creating current file
         /// </value>
         public string PGM { get; internal set; }
 
         /// <value>
-        /// Name of agency that created this file
+        /// Name of agency creating current file
         /// </value>
         public string RunBy { get; internal set; }
 
@@ -89,6 +95,11 @@ namespace Galileo.Classes
         public position Position { get; internal set; } = new position();
 
         /// <summary>
+        /// Antenna Height and Eccentricity (All units in meters)
+        /// </summary>
+        public AntennaDeltaHENs AntennaDeltaHEN { get; internal set; } = new AntennaDeltaHENs();
+
+        /// <summary>
         /// Number of columns and type of data recorded
         /// </summary>
         /// <remarks>
@@ -124,8 +135,9 @@ namespace Galileo.Classes
         public string SignalStrengthUnit { get; internal set; }
 
         /// <summary>
-        /// Observation interval in seconds
+        /// Observation interval
         /// </summary>
+        /// <value>seconds</value>
         public double Interval { get; internal set; }
 
         /// <summary>
@@ -180,6 +192,11 @@ namespace Galileo.Classes
         /// Number of antenna marker
         /// </value>
         public string Number { get; internal set; }
+
+        /// <summary>
+        /// Type of the marker
+        /// </summary>
+        public Galileo.Enums.Rinex.MarkerTypes Type { get; internal set; }
     }
 
     public class receiver
@@ -215,9 +232,41 @@ namespace Galileo.Classes
 
     public class position
     {
+        /// <value>
+        /// Units: Meters, System: ITRS recommended
+        /// </value>
         public double x { get; internal set; }
+
+        /// <summary>
+        /// Units: Meters, System: ITRS recommended
+        /// </summary>
         public double y { get; internal set; }
+
+        /// <summary>
+        /// Units: Meters, System: ITRS recommended
+        /// </summary>
         public double z { get; internal set; }
+    }
+
+    public class AntennaDeltaHENs
+    {
+        /// <summary>
+        /// Antenna height: Height of the antenna reference point(ARP) above the marker
+        /// </summary>
+        /// <value>Meters</value>
+        public double H { get; internal set; }
+
+        /// <summary>
+        /// Horizontal eccentricity of ARP relative to the marker(east)
+        /// </summary>
+        /// <value>Meters</value>
+        public double E { get; internal set; }
+
+        /// <summary>
+        /// Horizontal eccentricity of ARP relative to the marker(north)
+        /// </summary>
+        /// <value>Meters</value>
+        public double N { get; internal set; }
     }
 
     public class leapseconds
@@ -236,6 +285,11 @@ namespace Galileo.Classes
         /// weeks since 6-Jan-1980 
         /// </summary>
         public long WeekNumber { get; internal set; }
+
+        /// <summary>
+        /// The day number is the day before the leap second
+        /// </summary>
+        public int DayNumber { get; internal set; }
     }
 
     public class entry
@@ -259,6 +313,13 @@ namespace Galileo.Classes
         /// </summary>
         public DateTime DateOfRecord { get; internal set; }
 
+        /// <value>
+        /// <para>0: OK</para>
+        /// <para>1: power failure between previous and current epoch</para>
+        /// <para>>1: Special event</para>
+        /// </value>
+        public short EpochFlag { get; internal set; }
+
         /// <summary>
         /// Satellites recorded at that time
         /// </summary>
@@ -276,6 +337,13 @@ namespace Galileo.Classes
         /// </summary>
         public float Version { get; internal set; }
 
+
+        /// <summary>
+        /// File type
+        /// </summary>
+        /// <value><b>N</b> for Navigation Data</value>
+        public Galileo.Enums.Rinex.Types Type { get; internal set; }
+
         /// <summary>
         /// Satellite System:
         /// </summary>
@@ -291,15 +359,15 @@ namespace Galileo.Classes
         /// <item>Mixed (Multiple types of satellites used)</item>
         /// </list>
         /// </value>
-        public Galileo.Enums.Rinex.Types Type { get; internal set; }
+        public Galileo.Enums.Rinex.SatelliteSystems SateliteSystem { get; internal set; }
 
         /// <value>
-        /// Name of the program that created this file
+        /// Name of program creating current file
         /// </value>
         public string PGM { get; internal set; }
 
         /// <value>
-        /// Name of agency that created this file
+        /// Name of agency creating current file
         /// </value>
         public string RunBy { get; internal set; }
 
@@ -317,17 +385,61 @@ namespace Galileo.Classes
         /// <summary>
         /// Ionospheric Correction
         /// </summary>
-        public string IonosphericCorr { get; internal set; }
+        public IonosphericCorrs IonosphericCorr { get; internal set; } = new IonosphericCorrs();
 
         /// <summary>
         /// Time System Correction
         /// </summary>
-        public string TimeSystemCorr { get; internal set; }
+        public TimeSystemCorrs TimeSystemCorr { get; internal set; } = new TimeSystemCorrs();
 
         /// <summary>
         /// Navigation data entries
         /// </summary>
         public List<EntryNavigation> Entries { get; internal set; } = new List<EntryNavigation>();
+    }
+
+    public class IonosphericCorrs
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public double ai0;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double ai1;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double ai2;
+    }
+
+    public class TimeSystemCorrs
+    {
+        /// <summary>
+        /// Coefficients of 1-deg polynomial
+        /// </summary>
+        /// <value>seconds</value>
+        public double a0;
+
+        /// <summary>
+        /// Coefficients of 1-deg polynomial
+        /// </summary>
+        /// <value>sec/sec</value>
+        public double a1;
+
+        /// <summary>
+        /// Reference time for polynomial
+        /// </summary>
+        /// <value>Seconds into GAL Week</value>
+        public double t;
+
+        /// <summary>
+        /// Reference week number
+        /// </summary>
+        public double w;
     }
 
     public class EntryNavigation
@@ -339,9 +451,9 @@ namespace Galileo.Classes
         public string Name { get; internal set; }
 
         /// <summary>
-        /// The date the satellite were recorded (T
+        /// Time of clock (GAL)
         /// </summary>
-        public DateTime Date { get; internal set; }
+        public DateTime Toc { get; internal set; }
 
         /// <summary>
         /// Polynomial coefficients for clock correction
@@ -404,23 +516,26 @@ namespace Galileo.Classes
     public class GroupData1
     {
         /// <summary>
-        /// Issue of data, ephemeris 
+        /// Issue of data, ephemeris (IODE)
         /// </summary>
-        public double Iode;
+        public double IODnav;
 
         /// <summary>
         /// Amplitude of the sine harmonic correction term to the orbit radius (m)
         /// </summary>
+        /// <value>meters</value>
         public double Crs;
 
         /// <summary>
         /// Mean motion difference from computed value (semicircles/s)
         /// </summary>
+        /// <value>radians/sec</value>
         public double deltaN;
 
         /// <summary>
         /// Mean anomaly at reference time (semicircles)
         /// </summary>
+        /// <value>radians</value>
         public double M0;
     }
 
@@ -429,6 +544,7 @@ namespace Galileo.Classes
         /// <summary>
         /// Amplitude of the cosine harmonic correction term to the argument of latitude (rad)
         /// </summary>
+        /// <value>radians</value>
         public double Cuc;
 
         /// <summary>
@@ -439,6 +555,7 @@ namespace Galileo.Classes
         /// <summary>
         /// Amplitude of the sine harmonic correction term to the argument of latitude (rad)
         /// </summary>
+        /// <value>radians</value>
         public double Cus;
 
         /// <summary>
@@ -450,23 +567,27 @@ namespace Galileo.Classes
     public class GroupData3
     {
         /// <summary>
-        /// Ephemeris reference time 
+        /// Toe Time of Ephemeris
         /// </summary>
-        public double T0e;
+        /// <value>sec of GAL week</value>
+        public double Toe;
 
         /// <summary>
         /// Amplitude of the cosine harmonic correction term to the angle of inclination (rad)
         /// </summary>
+        /// <value>radians</value>
         public double Cic;
 
         /// <summary>
         /// Longitude of ascending node at reference time (semicircles)
         /// </summary>
+        /// <value>radians</value>
         public double OMEGA;
 
         /// <summary>
         /// Amplitude of the sine harmonic correction term to the angle of inclination (rad)
         /// </summary>
+        /// <value>radians</value>
         public double Cis;
     }
 
@@ -475,21 +596,25 @@ namespace Galileo.Classes
         /// <summary>
         /// Inclination angle at reference time (semicircles)
         /// </summary>
+        /// <value>radians</value>
         public double i0;
 
         /// <summary>
         /// Amplitude of the cosine harmonic correction term to the orbit radius (m)
         /// </summary>
+        /// <value>meters</value>
         public double Crc;
 
         /// <summary>
         /// Argument of perigee (semicircles)
         /// </summary>
+        /// <value>radians</value>
         public double omega;
 
         /// <summary>
         /// Rate of change of right ascension (semicircles/s)
         /// </summary>
+        /// <value>radians/sec</value>
         public double OMEGADOT;
     }
 
@@ -498,32 +623,45 @@ namespace Galileo.Classes
         /// <summary>
         /// Rate of change of inclination (semicircles/s)
         /// </summary>
+        /// <value>radians/sec</value>
         public double IDOT;
 
         /// <summary>
-        /// Codes on L2 channel
+        /// Biti de verificat pentru validarea datelor
         /// </summary>
         public double CodesL2;
 
         /// <summary>
         /// To use with T0E
         /// </summary>
-        public double GPSWeek;
+        public double Week;
 
-        /// <summary>
-        /// L2 P data flag
-        /// </summary>
-        public double L2pFlag;
     }
 
     public class GroupData6
     {
-        public double SVaccuracy;
+        /// <summary>
+        /// SISA Signal in space accuracy
+        /// Undefined/Unknown: -1
+        /// </summary>
+        /// <value>meters</value>
+        public double SisaSignal;
 
+        /// <summary>
+        /// See Galileo ICD Section 5.1.9.3 (Rinex303.pdf) p75
+        /// </summary>
         public double SVhealth;
 
-        public double TGD;
+        /// <summary>
+        /// BGD E5a/E1
+        /// </summary>
+        /// <value>Seconds</value>
+        public double BGDa;
 
-        public double IODC;
+        /// <summary>
+        /// BGD E5b/E1
+        /// </summary>
+        /// <value>Seconds</value>
+        public double BGDb;
     }
 }
