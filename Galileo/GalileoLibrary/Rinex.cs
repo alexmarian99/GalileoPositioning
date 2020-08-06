@@ -18,7 +18,26 @@ namespace Galileo
 
         public void ReadFIle(string path)
         {
+            string file = File.ReadAllText(path);
 
+            string firstLine = file.Split('\n', StringSplitOptions.RemoveEmptyEntries)[0];
+
+            // Load data from observation file
+            if (firstLine.Contains("OBSERVATION"))
+            {
+
+            }
+
+            // Load data from navigation file
+            else if (firstLine.Contains("NAV"))
+            {
+
+            }
+
+            // TO ADD METEOROLOGICAL
+
+            else
+                throw new Exception("Invalid file to load");
         }
 
     }
