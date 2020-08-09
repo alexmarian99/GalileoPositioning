@@ -392,6 +392,8 @@ namespace Galileo.Classes
         /// </summary>
         public TimeSystemCorrs TimeSystemCorr { get; internal set; } = new TimeSystemCorrs();
 
+        public leapseconds Leapseconds { get; internal set; } = new leapseconds();
+
         /// <summary>
         /// Navigation data entries
         /// </summary>
@@ -441,7 +443,6 @@ namespace Galileo.Classes
         /// </summary>
         public double w;
     }
-
     public class EntryNavigation
     {
         /// <summary>
