@@ -144,13 +144,13 @@ namespace Galileo.Classes
         /// Time of first observation record
         /// </summary>
         /// <value>yyyy mm  dd  hh  mm  ss  Type</value>
-        public string TimeFirstOrbs { get; internal set; }
+        public DateTime TimeFirstOrbs { get; internal set; }
 
         /// <summary>
         /// Time of last observation
         /// </summary>
         /// <value>yyyy mm  dd  hh  mm  ss  Type</value>
-        public string TimeLastOrbs { get; internal set; }
+        public DateTime TimeLastOrbs { get; internal set; }
 
         /// <summary>
         /// Epoch, code, and phase are corrected by applying the realtime-derived receiver clock offset:
@@ -303,7 +303,7 @@ namespace Galileo.Classes
         /// <summary>
         /// Data array
         /// </summary>
-        public List<double> Data { get; internal set; }
+        public List<double> Data { get; internal set; } = new List<double>();
     }
 
     public class record
