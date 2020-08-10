@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xs/4fBjus6B1oTPxSNe0OewnwbdIx3JpyTPNCfDjixbDdnekADQBEqrcj1OPdTzfQOJ3senNEYrCDXR/rBBM2g==",
+  "dgSpecHash": "8ZCInUNHkdbrM2NU6394YUASHb56XZyxxkOpD5sFhh1gOASonCbgsfESrfqUzwXDhrufYmILOABQG0hYin6NXA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\AlexMarian\\.nuget\\packages\\mathnet.numerics\\4.12.0\\mathnet.numerics.4.12.0.nupkg.sha512"
+  ],
   "logs": []
 }

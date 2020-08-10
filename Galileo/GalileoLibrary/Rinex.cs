@@ -21,9 +21,10 @@ namespace Galileo
 
         public double floatingToDouble (string floatingNum)
         {
-            string[] value = floatingNum.Replace("D", " ").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToArray();
-            double doubleNum = double.Parse(value[0], System.Globalization.CultureInfo.InvariantCulture) * Math.Pow(10, double.Parse(value[1], System.Globalization.CultureInfo.InvariantCulture));
-            return doubleNum;
+            //string[] value = floatingNum.Replace("D", " ").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToArray();
+            //double doubleNum = double.Parse(value[0], System.Globalization.CultureInfo.InvariantCulture) * Math.Pow(10, double.Parse(value[1], System.Globalization.CultureInfo.InvariantCulture));
+            //return doubleNum;
+            return Convert.ToDouble(floatingNum.Replace("D", "E"), CultureInfo.InvariantCulture);
         }
         public string addSpaces (string data)
         {
@@ -233,11 +234,11 @@ namespace Galileo
                             foreach (string stringData in stringDatas)
                             {
                                 if (stringData.StartsWith("-."))
-                                    ListEntry.Data.Add(Convert.ToDouble("-" + 0 + stringData.Substring(1)));
+                                    ListEntry.Data.Add(Convert.ToDouble("-" + 0 + stringData.Substring(1), CultureInfo.InvariantCulture));
                                 else if (stringData.StartsWith("."))
-                                    ListEntry.Data.Add(Convert.ToDouble(0 + stringData.Substring(0)));
+                                    ListEntry.Data.Add(Convert.ToDouble(0 + stringData.Substring(0), CultureInfo.InvariantCulture));
                                 else
-                                    ListEntry.Data.Add(Convert.ToDouble(stringData));
+                                    ListEntry.Data.Add(Convert.ToDouble(stringData, CultureInfo.InvariantCulture));
                             }
                             ListRecord.Satellites.Add(ListEntry);
                         }

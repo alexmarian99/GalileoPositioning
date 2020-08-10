@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "MathNet.Numerics/4.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/MathNet.Numerics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MathNet.Numerics.dll": {}
+        }
+      },
       "GalileoLibrary/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -15,6 +24,26 @@
     }
   },
   "libraries": {
+    "MathNet.Numerics/4.12.0": {
+      "sha512": "U6R74mc1PHD3HbbevY5Z6AS07toye0PBooKPpCyD9sCc5HDPlRl+lmiWl+zy8L7IEHIH0Bvkx1sVqBY++5X5eA==",
+      "type": "package",
+      "path": "mathnet.numerics/4.12.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net40/MathNet.Numerics.dll",
+        "lib/net40/MathNet.Numerics.xml",
+        "lib/net461/MathNet.Numerics.dll",
+        "lib/net461/MathNet.Numerics.xml",
+        "lib/netstandard1.3/MathNet.Numerics.dll",
+        "lib/netstandard1.3/MathNet.Numerics.xml",
+        "lib/netstandard2.0/MathNet.Numerics.dll",
+        "lib/netstandard2.0/MathNet.Numerics.xml",
+        "mathnet.numerics.4.12.0.nupkg.sha512",
+        "mathnet.numerics.nuspec"
+      ]
+    },
     "GalileoLibrary/1.0.0": {
       "type": "project",
       "path": "../GalileoLibrary/GalileoLibrary.csproj",
@@ -23,24 +52,30 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "GalileoLibrary >= 1.0.0"
+      "GalileoLibrary >= 1.0.0",
+      "MathNet.Numerics >= 4.12.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alexn\\.nuget\\packages\\": {}
+    "C:\\Users\\AlexMarian\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+      "projectUniqueName": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
       "projectName": "Galileo",
-      "projectPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
-      "packagesPath": "C:\\Users\\alexn\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
+      "projectPath": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+      "packagesPath": "C:\\Users\\AlexMarian\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\alexn\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\AlexMarian\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -52,8 +87,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
-              "projectPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
+            "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
+              "projectPath": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
             }
           }
         }
@@ -66,6 +101,12 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "dependencies": {
+          "MathNet.Numerics": {
+            "target": "Package",
+            "version": "[4.12.0, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
