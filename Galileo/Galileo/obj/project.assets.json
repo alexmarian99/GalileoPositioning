@@ -63,11 +63,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+      "projectUniqueName": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
       "projectName": "Galileo",
-      "projectPath": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+      "projectPath": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
       "packagesPath": "C:\\Users\\AlexMarian\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
+      "outputPath": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -87,8 +87,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
-              "projectPath": "C:\\Users\\AlexMarian\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
+            "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
+              "projectPath": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
             }
           }
         }

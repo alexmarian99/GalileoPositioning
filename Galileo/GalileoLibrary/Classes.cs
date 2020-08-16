@@ -311,7 +311,7 @@ namespace Galileo.Classes
         /// <summary>
         /// The date the satellites were recorded
         /// </summary>
-        public DateTime DateOfRecord { get; internal set; }
+        public DateTime Epoch { get; internal set; }
 
         /// <value>
         /// <para>0: OK</para>

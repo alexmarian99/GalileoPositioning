@@ -216,8 +216,8 @@ namespace Galileo
                     ListRecord.EpochFlag = Convert.ToInt16(date[6]);
                     DateTime dataRef;
                     DateTime.TryParseExact(date[0] + " " + date[1] + " " + date[2] + " " + date [3] + " " + date[4] + " " + date[5], "yyyy MM dd HH mm s.fffffff", CultureInfo.InvariantCulture, DateTimeStyles.None, out dataRef);
-                    ListRecord.DateOfRecord = dataRef;
-                    ListRecord.DateOfRecord = DateTime.SpecifyKind(ListRecord.DateOfRecord, DateTimeKind.Unspecified);
+                    ListRecord.Epoch = dataRef;
+                    ListRecord.Epoch = DateTime.SpecifyKind(ListRecord.Epoch, DateTimeKind.Unspecified);
 
                     List<string> entries = record.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToList();
                     entries.Remove(entries.First());
