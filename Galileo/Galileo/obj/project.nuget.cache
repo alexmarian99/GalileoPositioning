@@ -1,10 +1,23 @@
 {
   "version": 2,
-  "dgSpecHash": "di135aTyAAQWfg9l+qlzKMeDcEOZiHsDQ2wttCRcPpg7oVIfBUXIPJXBiMDwSp49Dg+Dydy1v+nTrLAkDEMPFA==",
+  "dgSpecHash": "ifd5Abca2KGnC7WGPEAKWQ8v5JF2nbt4PRS7WbDHLorcVgZcdhD3e/b+nbMi2KasXx6lHiw6DNVsFWA9nQEEBw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\AlexMarian\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+  "projectFilePath": "C:\\Users\\alexn\\source\\repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\AlexMarian\\.nuget\\packages\\mathnet.numerics\\4.12.0\\mathnet.numerics.4.12.0.nupkg.sha512"
+    "C:\\Users\\alexn\\.nuget\\packages\\extreme.numerics\\7.0.14\\extreme.numerics.7.0.14.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\mathnet.numerics\\4.12.0\\mathnet.numerics.4.12.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.runtime.loader\\4.3.0\\system.runtime.loader.4.3.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.security.accesscontrol\\4.5.0\\system.security.accesscontrol.4.5.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }

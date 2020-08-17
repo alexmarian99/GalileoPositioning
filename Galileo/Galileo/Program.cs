@@ -9,6 +9,11 @@ using System.Reflection.Metadata;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using System.Threading;
+using Extreme.Mathematics;
+using Extreme.Mathematics.LinearAlgebra;
+using MathNet.Numerics;
+using System.Security;
+using System.Data.Common;
 
 namespace Galileo
 {
@@ -23,13 +28,17 @@ namespace Galileo
 
         static void Main(string[] args)
         {
+            //Constante
+            double GM = 3.986005 * Math.Pow(10, 14);
+            double omegaE = 7.292115 * Math.Pow(10, -5);
+            var pi = Math.PI;
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
             //Code
             Rinex fisier = new Rinex();
-            fisier.ReadFIle(@"D:\navData.rnx");
-            fisier.ReadFIle(@"D:\M0SE00ITA_R_20201970000_01D_30S_MO.rnx");
+            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\M0SE00ITA_R_20201970000_01D_MN.rnx");
+            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\M0SE00ITA_R_20201970000_01D_30S_MO.rnx");
             DateTime reper = DateTime.SpecifyKind(DateTime.ParseExact("06.01.1980 00:00:00", "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture), DateTimeKind.Unspecified);
 
             Sat sat1 = new Sat()
@@ -71,7 +80,6 @@ namespace Galileo
 
 
             var julcalc = julday(fisier.ObservationFile.Entries[60].Epoch);
-            Console.WriteLine(julcalc);
             Console.WriteLine(gps_time(julcalc)[1]);
             
             // Conversie din Epoch in JulDate
@@ -104,10 +112,226 @@ namespace Galileo
                 double week = Math.Floor((julday - 2444244.5) / 7);
 
                 // We add + 1 as the GPS week starts at Saturday midnight
-                double sec_of_week = ((d % 1) + day_of_week + 1) * 86400;
-
+                double sec_of_week = Math.Round(((d % 1) + day_of_week + 1) * 86400);
                 return new double[2] { week, sec_of_week };
             }
+
+            double check_t (double t)
+            {
+                //halfWeek = 302400;
+                if (t > 302400)
+                    t -= 604800;
+                if (t < -302400)
+                    t += 604800;
+                return t;
+            }
+
+            //Computation of satellite coordinates (X,Y,Z) at time t
+            double[] satPos (double t, EntryNavigation entry)
+            {
+                double A = entry.Group2.sqrtA * entry.Group2.sqrtA;
+                double tk = check_t(t - entry.Group3.Toe);
+                double n0 = Math.Sqrt(GM / Math.Pow(A, 3));
+                double n = n0 + entry.Group1.deltaN;
+                double M = entry.Group1.M0 + n * tk;
+                M = (M + 2 * pi) % (2 * pi);
+                double E = M;
+                for (int j=0; j<10; j++)
+                {
+                    double E_old = E;
+                    E = M * entry.Group2.e * Math.Sin(E);
+                    double dE = (E - E_old) % (2 * pi);
+                    if (Math.Abs(dE) < 1.2E-12)
+                        break;
+                }
+                E = (E + 2 * pi) % (2 * pi);
+                double v = Math.Atan2(Math.Sqrt(1 - Math.Pow(entry.Group2.e, 2)) * Math.Sin(E), Math.Cos(E) - entry.Group2.e);
+                double phi = v + entry.Group4.omega;
+                phi = phi % (2 * pi);
+                double u = phi + entry.Group2.Cuc * Math.Cos(2 * phi) + entry.Group2.Cus * Math.Sin(2 * phi);
+                double r = A * (1 - entry.Group2.e * Math.Cos(E)) + entry.Group4.Crc * Math.Cos(2 * phi) + entry.Group1.Crs * Math.Sin(2 * phi);
+                double i = entry.Group4.i0 + entry.Group5.IDOT * tk + entry.Group3.Cic * Math.Cos(2 * phi) + entry.Group3.Cis * Math.Sin(2 * phi);
+                double Omega = entry.Group3.OMEGA + (entry.Group4.OMEGADOT - omegaE) * tk - omegaE * entry.Group3.Toe;
+                Omega = (Omega + 2 * pi) % (2 * pi);
+                double x1 = Math.Cos(u) * r;
+                double y1 = Math.Sin(u) * r;
+                double x = x1 * Math.Cos(Omega) - y1 * Math.Cos(i) * Math.Sin(Omega);
+                double y = x1 * Math.Sin(Omega) + y1 * Math.Cos(i) * Math.Cos(Omega);
+                double z = y1 * Math.Sin(i);
+                return new double[3]
+                {
+                    x, y, z
+                };
+            }
+
+            //Returns rotated satellite ECEF coordinates due to Earth rotation during signal travel time
+            double[] e_r_corr(double travelTime, double[] Xsat)
+            {
+                double omegaTau = omegaE * travelTime;
+                var R3 = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
+                    {
+                     Math.Cos(omegaTau), Math.Sin(omegaTau), 0,
+                     -Math.Sin(omegaTau), Math.Cos(omegaTau), 0,
+                     0, 0 , 1
+                }, MatrixElementOrder.ColumnMajor);
+                var XsatRot = R3.Multiply(Xsat);
+                return new double[3]
+                {
+                    XsatRot[0], XsatRot[1], XsatRot[2]
+                };
+            }
+
+            //calculate geodetic coordinates
+            double[] toGeod(double a, double finv, double x, double y, double z)
+            {
+                double h = 0;
+                double tolsq = 1E-10;
+                double maxIt = 10;
+                double rtd = 180 / pi;
+                double esq;
+                if (finv < 1E-20)
+                    esq = 0;
+                else
+                    esq = (2 - 1 / finv) / finv;
+                double oneesq = 1 - esq;
+                double P = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
+                double dlambda;
+                if (P > 1e-20)
+                    dlambda = Math.Atan2(y, x) * rtd;
+                else
+                    dlambda = 0;
+                if (dlambda < 0)
+                    dlambda += 360;
+                double r = Math.Sqrt(Math.Pow(P, 2) + Math.Pow(z, 2));
+                double sinPhi;
+                if (r > 1e-20)
+                    sinPhi = z / r;
+                else
+                    sinPhi = 0;
+                double dPhi = Math.Asin(sinPhi);
+                if (r < 1e-20)
+                    return new double[3]
+                    {
+                        dPhi, dlambda, h
+                    };
+                h = r - a * (1 - sinPhi * sinPhi / finv);
+                for (int i=0;i<maxIt;i++)
+                {
+                    sinPhi = Math.Sin(dPhi);
+                    double cosPhi = Math.Cos(dPhi);
+                    double nPhi = a / Math.Sqrt(1 - esq * sinPhi * sinPhi);
+                    double dP = P - (nPhi + h) * cosPhi;
+                    double dZ = z - (nPhi * oneesq + h) * sinPhi;
+                    h += sinPhi * dZ + cosPhi * dP;
+                    dPhi += (cosPhi * dZ - sinPhi * dP) / (nPhi + h);
+                    if (dP * dP + dZ * dZ < tolsq)
+                        break;
+                }
+                dPhi *= rtd;
+                return new double[3]
+                {
+                    dPhi, dlambda, h
+                };
+            }
+
+            //Transformation of vector dx into topocentric coordinate system with origin at X.
+            double[] topocent (double[] x, double[] dx)
+            {
+                double dtr = pi / 180;
+                double[] data = toGeod(6378137, 298.257223563, x[0], x[1], x[2]);
+                double phi = data[0];
+                double lambda = data[1];
+                double c1 = Math.Cos(lambda * dtr);
+                double s1 = Math.Sin(lambda * dtr);
+                double cb = Math.Cos(phi * dtr);
+                double sb = Math.Sin(phi * dtr);
+                var F = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
+                {
+                   -s1, -sb*c1, cb*c1,
+                   c1, -sb*s1, cb*s1,
+                   0, cb, sb
+                }, MatrixElementOrder.ColumnMajor);
+                var vect = F.GetInverse().Multiply(dx);
+                double E = vect[0];
+                double N = vect[1];
+                double U = vect[2];
+                double horDis = Math.Sqrt(Math.Pow(E, 2) + Math.Pow(N, 2));
+                double Az;
+                double El;
+                if (horDis < 1e-20)
+                {
+                    Az = 0;
+                    El = 90;
+                }
+                else
+                {
+                    Az = Math.Atan2(E, N) / dtr;
+                    El = Math.Atan2(U, horDis) / dtr;   
+                }
+                if (Az < 0)
+                    Az += 360;
+                double D = Math.Sqrt(Math.Pow(dx[0], 2) + Math.Pow(dx[1], 2) + Math.Pow(dx[2], 2));
+                return new double[3]
+                {
+                    Az, El, D
+                };
+            }
+
+            //Calculation of tropospheric correction.
+            double tropo (double sinel, double  hsta, double p, double tkel, double hum, double hp, double htkel, double hhum)
+            {
+                double ae = 6378.137;
+                double b0 = 7.839257e-5;
+                double tlapse = -6.5;
+                double tkhum = tkel + tlapse * (hhum - htkel);
+                double atkel = 7.5 * (tkhum - 273.15) / (237.3 + tkhum - 273.15);
+                double e0 = 0.0611 * hum * Math.Pow(10, atkel);
+                double tksea = tkel - tlapse * htkel;
+                double em = -978.77 / (2.8704e6 * tlapse * 1.05e-5);
+                double tkelh = tksea + tlapse * hhum;
+                double e0sea = e0 * Math.Pow((tksea / tkel), 4 * em);
+                double tkelp = tksea + tlapse * hp;
+                double psea = p * Math.Pow((tksea / tkelp), em);
+                if (sinel < 0)
+                    sinel = 0;
+                double tropo = 0;
+                bool done = false;
+                double refsea = 77.624e-6 / tksea;
+                double htop = 1.1385e-5 / refsea;
+                refsea *= psea;
+                double Ref = refsea * Math.Pow((htop - hsta) / htop, 4);
+                for(; ; )
+                {
+                    double rtop = Math.Pow((ae + htop), 2) - Math.Pow(ae + hsta, 2) * (1 - Math.Pow(sinel, 2));
+                    if (rtop < 0)
+                        rtop = 0;
+                    rtop = Math.Sqrt(rtop) - (ae + hsta) * sinel;
+                    double a = -sinel / (htop - hsta);
+                    double b = -b0 * (1 - Math.Pow(sinel, 2)) / (htop - hsta);
+                    double[] rn = new double[10];
+                    for (int i = 0; i < 8; i++)
+                        rn[i] = Math.Pow(rtop, i + 2);
+                    double[] alpha = { 2 * a, 2 * Math.Pow(a, 2) + 4 * b / 3, a * (Math.Pow(a, 2) + 3 * b), Math.Pow(a, 4) / 5 + 2.4 * Math.Pow(a, 2) * b + 1.2 * Math.Pow(b, 2), 2 * a * b * (Math.Pow(a, 2) + 3 * b) / 3, Math.Pow(b, 2) * (Math.Pow(a, 2) * 6 + 4 * b) * 1.428571e-1, 0, 0 };
+                    if (Math.Pow(b,2)>1e-35)
+                    {
+                        alpha[6] = a * Math.Pow(b, 3) / 2;
+                        alpha[7] = Math.Pow(b, 4) / 9;
+                    }
+                    double dr = rtop;
+                    for ( int i=0; i<8; i++)
+                        dr += alpha[i] * rn[i];
+                    tropo += dr * Ref * 1000;
+                    if (done == true)
+                        return tropo;
+                    done = true;
+                    refsea = (371900.06e-6 / tksea - 12.92e-6) / tksea;
+                    htop = 1.1385e-5 * (1255 / tksea + 0.05) / refsea;
+                    Ref = refsea * e0sea * Math.Pow((htop - hsta) / htop, 4);
+                }
+            }
+
+            //Computation of receiver position from pseudoranges using ordinary least-squares principle
+            //double[] recpo_ls(EntryNavigation entry, double time, )
 
             #region codeVechi
 

@@ -16,14 +16,6 @@ C:\Users\alexn\Source\Repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibra
 C:\Users\alexn\Source\Repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csproj.CoreCompileInputs.cache
 C:\Users\alexn\Source\Repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.dll
 C:\Users\alexn\Source\Repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.pdb
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.deps.json
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.dll
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.pdb
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.AssemblyInfoInputs.cache
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.AssemblyInfo.cs
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csproj.CoreCompileInputs.cache
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.dll
-C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.pdb
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.deps.json
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.dll
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.pdb
@@ -32,3 +24,11 @@ C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\Galileo
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csproj.CoreCompileInputs.cache
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.dll
 C:\Users\AlexMarian\source\repos\alexmarian99\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.pdb
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.deps.json
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.dll
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\bin\Debug\netcoreapp3.1\GalileoLibrary.pdb
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csprojAssemblyReference.cache
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.AssemblyInfoInputs.cache
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.AssemblyInfo.cs
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.dll
+C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.pdb
