@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "NxNSay+6mL2C6h6ovRrPscKNC1ZW1ONraqRJPymX56MksUJ35HhuGRlt2zwQycpuM3QW7YYGqEGuWxSBpWem3w==",
+  "dgSpecHash": "QNSs5T/TpQlCnzTTCJO90BZ37PA1Y0XWgRpwDsuj8+vCpe4HUcfnfKWijk8F9A9iNv9x6ONkVpAL9qJXJs3rMw==",
   "success": true,
   "projectFilePath": "C:\\Users\\alexn\\source\\repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\alexn\\.nuget\\packages\\accord\\3.8.0\\accord.3.8.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\accord.math\\3.8.0\\accord.math.3.8.0.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\extreme.numerics\\7.0.14\\extreme.numerics.7.0.14.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
