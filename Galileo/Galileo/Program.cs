@@ -144,7 +144,7 @@ namespace Galileo
                 for (int j=0; j<10; j++)
                 {
                     double E_old = E;
-                    E = M * entry.Group2.e * Math.Sin(E);
+                    E = M + entry.Group2.e * Math.Sin(E);
                     double dE = (E - E_old) % (2 * pi);
                     if (Math.Abs(dE) < 1.2E-12)
                         break;
@@ -250,6 +250,25 @@ namespace Galileo
                 double s1 = Math.Sin(lambda * dtr);
                 double cb = Math.Cos(phi * dtr);
                 double sb = Math.Sin(phi * dtr);
+                double[,] F = new double[3, 3];
+                F[0, 0] = -s1;
+                F[0, 1] = -sb * c1;
+                F[0, 2] = cb * c1;
+                F[1, 0] = c1;
+                F[1, 1] = -sb * s1;
+                F[1, 2] = cb * s1;
+                F[2, 0] = 0;
+                F[2, 1] = cb;
+                F[2, 2] = sb;
+                double[,] Finv = F.Inverse();
+                double[] vect = { 0,0,0 };
+                for(int i=0;i<3;i++)
+                {
+                    vect[0] += Finv[0,i] * dx[i];
+                    vect[1] += Finv[1,i] * dx[i];
+                    vect[2] += Finv[2,i] * dx[i];
+                }
+/*
                 var F = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
                 {
                    -s1, -sb*c1, cb*c1,
@@ -257,6 +276,7 @@ namespace Galileo
                    0, cb, sb
                 }, MatrixElementOrder.ColumnMajor);
                 var vect = F.GetInverse().Multiply(dx);
+*/
                 double E = vect[0];
                 double N = vect[1];
                 double U = vect[2];
