@@ -35,7 +35,7 @@ namespace Galileo
         {
             //Constante
             double GM = 3.986005 * Math.Pow(10, 14);
-            double omegaE = 7.292115 * Math.Pow(10, -5);
+            double omegaE = 7.2921151467 * Math.Pow(10, -5);
             var pi = Math.PI;
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
@@ -173,6 +173,15 @@ namespace Galileo
             double[] e_r_corr(double travelTime, double[] Xsat)
             {
                 double omegaTau = omegaE * travelTime;
+                double[,] R3 = new double[3, 3] { { Math.Cos(omegaTau), Math.Sin(omegaTau), 0 }, { -Math.Sin(omegaTau), Math.Cos(omegaTau), 0 }, { 0,0,1 } };
+                double[] XsatRot = { 0,0,0 };
+                for(int i=0;i<3;i++)
+                {
+                    XsatRot[0] += R3[0, i] * Xsat[i];
+                    XsatRot[1] += R3[1, i] * Xsat[i];
+                    XsatRot[2] += R3[2, i] * Xsat[i];
+                }
+                /*
                 var R3 = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
                     {
                      Math.Cos(omegaTau), Math.Sin(omegaTau), 0,
@@ -180,6 +189,7 @@ namespace Galileo
                      0, 0 , 1
                 }, MatrixElementOrder.ColumnMajor);
                 var XsatRot = R3.Multiply(Xsat);
+                */
                 return new double[3]
                 {
                     XsatRot[0], XsatRot[1], XsatRot[2]
@@ -215,10 +225,14 @@ namespace Galileo
                     sinPhi = 0;
                 double dPhi = Math.Asin(sinPhi);
                 if (r < 1e-20)
+                {
+                    h = 0;
                     return new double[3]
                     {
                         dPhi, dlambda, h
                     };
+                }
+                    
                 h = r - a * (1 - sinPhi * sinPhi / finv);
                 for (int i=0;i<maxIt;i++)
                 {
@@ -260,13 +274,13 @@ namespace Galileo
                 F[2, 0] = 0;
                 F[2, 1] = cb;
                 F[2, 2] = sb;
-                double[,] Finv = F.Inverse();
+                double[,] Ftrans = F.Transpose();
                 double[] vect = { 0,0,0 };
                 for(int i=0;i<3;i++)
                 {
-                    vect[0] += Finv[0,i] * dx[i];
-                    vect[1] += Finv[1,i] * dx[i];
-                    vect[2] += Finv[2,i] * dx[i];
+                    vect[0] += Ftrans[0,i] * dx[i];
+                    vect[1] += Ftrans[1,i] * dx[i];
+                    vect[2] += Ftrans[2,i] * dx[i];
                 }
 /*
                 var F = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
@@ -437,7 +451,6 @@ namespace Galileo
                                 A.SetValue((-(rotX[2] - pos[2])) / obsData.Satellites[sat[i]].Data[0], i, 2);
                                 A.SetValue(1, i, 3);
                                 Console.WriteLine("{0} | {1} | {2} | {3}",A.GetValue(i,0),A.GetValue(i,1),A.GetValue(i,2),A.GetValue(i,3));
-                                Console.WriteLine("{0} | {1}", i, iter);
                             }
                             else
                                 continue;
@@ -448,7 +461,7 @@ namespace Galileo
                     double[,] Ainv = A.PseudoInverse();
                     for(int i =0;i<omc.Length;i++)
                     {
-                        x[0] += Ainv[0,i] * omc[i,0];
+                        x[0] += Ainv[0, i] * omc[i, 0];
                         x[1] += Ainv[1, i] * omc[i, 0];
                         x[2] += Ainv[2, i] * omc[i, 0];
                         x[3] += Ainv[3, i] * omc[i, 0];
@@ -493,7 +506,7 @@ namespace Galileo
                 double[] Row = Pos.GetRow(0);
                 Array.Resize(ref Row, i-1);
                 double x = Row.Average();
-                Row = Pos.GetRow(1);
+                Row = Pos.GetRow(1); 
                 Array.Resize(ref Row, i-1);
                 double y = Row.Average();
                 Row = Pos.GetRow(2);
