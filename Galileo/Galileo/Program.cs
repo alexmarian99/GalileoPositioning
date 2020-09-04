@@ -42,8 +42,8 @@ namespace Galileo
 
             //Code
             Rinex fisier = new Rinex();
-            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\M0SE00ITA_R_20201970000_01D_MN.rnx");
-            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\M0SE00ITA_R_20201970000_01D_30S_MO.rnx");
+            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\2sept19Nav.rnx");
+            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\1sep19.rnx");
 
             getPosition(fisier.ObservationFile, fisier.NavigationFile);
             //DateTime reper = DateTime.SpecifyKind(DateTime.ParseExact("06.01.1980 00:00:00", "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture), DateTimeKind.Unspecified);
@@ -326,9 +326,9 @@ namespace Galileo
                 double atkel = 7.5 * (tkhum - 273.15) / (237.3 + tkhum - 273.15);
                 double e0 = 0.0611 * hum * Math.Pow(10, atkel);
                 double tksea = tkel - tlapse * htkel;
-                double em = -978.77 / (2.8704e6 * tlapse * 1.05e-5);
+                double em = -978.77 / (2.8704e6 * tlapse * 1e-5);
                 double tkelh = tksea + tlapse * hhum;
-                double e0sea = e0 * Math.Pow((tksea / tkel), 4 * em);
+                double e0sea = e0 * Math.Pow((tksea / tkelh), 4 * em);
                 double tkelp = tksea + tlapse * hp;
                 double psea = p * Math.Pow((tksea / tkelp), em);
                 if (sinel < 0)
@@ -363,7 +363,7 @@ namespace Galileo
                     if (done == true)
                         return tropo;
                     done = true;
-                    refsea = (371900.06e-6 / tksea - 12.92e-6) / tksea;
+                    refsea = (371900e-6 / tksea - 12.92e-6) / tksea;
                     htop = 1.1385e-5 * (1255 / tksea + 0.05) / refsea;
                     Ref = refsea * e0sea * Math.Pow((htop - hsta) / htop, 4);
                 }

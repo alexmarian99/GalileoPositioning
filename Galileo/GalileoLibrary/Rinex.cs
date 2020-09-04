@@ -289,14 +289,16 @@ namespace Galileo
                     }
                     else if (line.Contains("IONOSPHERIC CORR") && line.Contains("GAL"))
                     {
-                        List<string> lineEdited = line.Replace("GAL", "").Replace("IONOSPHERIC CORR", "").Split(" ",StringSplitOptions.RemoveEmptyEntries).ToList();
+                        string spacedLINE = addSpaces(line);
+                        List<string> lineEdited = spacedLINE.Replace("GAL", "").Replace("IONOSPHERIC CORR", "").Split(" ",StringSplitOptions.RemoveEmptyEntries).ToList();
                         NavigationFile.IonosphericCorr.ai0 = floatingToDouble(lineEdited[0]);
                         NavigationFile.IonosphericCorr.ai1 = floatingToDouble(lineEdited[1]);
                         NavigationFile.IonosphericCorr.ai2 = floatingToDouble(lineEdited[2]);
                     }
                     else if (line.Contains("TIME SYSTEM CORR") && line.Contains("GAUT"))
                     {
-                        List<string> lineEdited = line.Replace("GAUT", "").Replace("TIME SYSTEM CORR", "").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
+                        string spacedLine = addSpaces(line);
+                        List<string> lineEdited = spacedLine.Replace("GAUT", "").Replace("TIME SYSTEM CORR", "").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
                         NavigationFile.TimeSystemCorr.a0 = floatingToDouble(lineEdited[0]);
                         NavigationFile.TimeSystemCorr.a1 = floatingToDouble(lineEdited[1]);
                         NavigationFile.TimeSystemCorr.t = double.Parse(lineEdited[2], System.Globalization.CultureInfo.InvariantCulture);
@@ -304,7 +306,8 @@ namespace Galileo
                     }
                     else if (line.Contains("LEAP SECONDS"))
                     {
-                        List<string> lineEdited = line.Replace("LEAP SECONDS", "").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
+                        string spacedLine = addSpaces(line);
+                        List<string> lineEdited = spacedLine.Replace("LEAP SECONDS", "").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
                         NavigationFile.Leapseconds.CurrentNumber = Convert.ToInt32(lineEdited[0]);
                         NavigationFile.Leapseconds.FuturePastLeaps = Convert.ToInt32(lineEdited[1]);
                         NavigationFile.Leapseconds.WeekNumber = Convert.ToInt64(lineEdited[2]);
