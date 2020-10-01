@@ -33,3 +33,4 @@ C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\
 C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csproj.CoreCompileInputs.cache
 C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.dll
 C:\Users\alexn\source\repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.pdb
+C:\Users\alexn\Source\Repos\GalileoPositioning\Galileo\GalileoLibrary\obj\Debug\netcoreapp3.1\GalileoLibrary.csprojAssemblyReference.cache

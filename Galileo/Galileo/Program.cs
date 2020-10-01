@@ -19,6 +19,7 @@ using Accord.Math;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using System.Windows;
 using MathNet.Numerics.LinearAlgebra.Complex32;
+using System.Diagnostics;
 
 namespace Galileo
 {
@@ -42,52 +43,52 @@ namespace Galileo
 
             //Code
             Rinex fisier = new Rinex();
-            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\2sept19Nav.rnx");
-            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\1sep19.rnx");
+            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\nav.rnx");
+            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\obs.rnx");
 
             getPosition(fisier.ObservationFile, fisier.NavigationFile);
             //DateTime reper = DateTime.SpecifyKind(DateTime.ParseExact("06.01.1980 00:00:00", "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture), DateTimeKind.Unspecified);
-/*
-            Sat sat1 = new Sat()
-            {
-                Observation = fisier.ObservationFile.Entries[60].Satellites[0],
-                Navigation = fisier.NavigationFile.Entries[84]
-            };
+            /*
+                        Sat sat1 = new Sat()
+                        {
+                            Observation = fisier.ObservationFile.Entries[60].Satellites[0],
+                            Navigation = fisier.NavigationFile.Entries[84]
+                        };
 
-            Sat sat2 = new Sat()
-            {
-                Observation = fisier.ObservationFile.Entries[60].Satellites[1],
-                Navigation = fisier.NavigationFile.Entries[83]
-            };
+                        Sat sat2 = new Sat()
+                        {
+                            Observation = fisier.ObservationFile.Entries[60].Satellites[1],
+                            Navigation = fisier.NavigationFile.Entries[83]
+                        };
 
-            Sat sat3 = new Sat()
-            {
-                Observation = fisier.ObservationFile.Entries[60].Satellites[2],
-                Navigation = fisier.NavigationFile.Entries[82]
-            };
+                        Sat sat3 = new Sat()
+                        {
+                            Observation = fisier.ObservationFile.Entries[60].Satellites[2],
+                            Navigation = fisier.NavigationFile.Entries[82]
+                        };
 
-            Sat sat4 = new Sat()
-            {
-                Observation = fisier.ObservationFile.Entries[60].Satellites[3],
-                Navigation = fisier.NavigationFile.Entries[81]
-            };
+                        Sat sat4 = new Sat()
+                        {
+                            Observation = fisier.ObservationFile.Entries[60].Satellites[3],
+                            Navigation = fisier.NavigationFile.Entries[81]
+                        };
 
-            Sat sat5 = new Sat()
-            {
-                Observation = fisier.ObservationFile.Entries[60].Satellites[5],
-                Navigation = fisier.NavigationFile.Entries[90]
-            };
+                        Sat sat5 = new Sat()
+                        {
+                            Observation = fisier.ObservationFile.Entries[60].Satellites[5],
+                            Navigation = fisier.NavigationFile.Entries[90]
+                        };
 
-            List<Sat> Satellites = new List<Sat>();
-            Satellites.Add(sat1);
-            Satellites.Add(sat2);
-            Satellites.Add(sat3);
-            Satellites.Add(sat4);
-            Satellites.Add(sat5);
-            */
+                        List<Sat> Satellites = new List<Sat>();
+                        Satellites.Add(sat1);
+                        Satellites.Add(sat2);
+                        Satellites.Add(sat3);
+                        Satellites.Add(sat4);
+                        Satellites.Add(sat5);
+                        */
 
-            
             // Conversie din Epoch in JulDate
+            // Meeus, Jean (1991) Astronomical Algorithms, Willmann-Bell, Richmond, Virginia, p. 59--62
             double julday(DateTime date)
             {
                 double y = date.Year;
@@ -95,11 +96,13 @@ namespace Galileo
                 double d = date.Day;
                 double h = date.Hour + (double)date.Minute / 60 + (double)date.Second / 3600;
                 
+                //Jan and Feb are considered to be the 13th and 14th month of the preceding year
                 if (m <= 2)
                 {
                     y -= 1;
                     m += 12;
                 }
+                //Julian day number 0 assigned to the day starting at noon on Monday, January 1, 4713 BC
 
                 return Math.Floor(365.25 * (y + 4716)) + Math.Floor(30.6001 * (m + 1)) + d + h / 24 - 1537.5;
             }
@@ -114,6 +117,7 @@ namespace Galileo
                 double f = Math.Floor((b - e) / 30.6001);
                 double d = b - e - Math.Floor(30.6001 * f) + (julday + .5) % 1;
                 double day_of_week = (Math.Floor(julday + .5)) % 7;
+                //GPS standard epoch, JD = 2,444,244.5 (January 6th, 1980, 00:00 UTC)
                 double week = Math.Floor((julday - 2444244.5) / 7);
 
                 // We add + 1 as the GPS week starts at Saturday midnight
@@ -394,9 +398,9 @@ namespace Galileo
                     {
                        0,0,0,0
                     };
-                Console.WriteLine(obsData.Epoch);
-                Console.WriteLine(n);
-                Console.WriteLine("++++++++++++++");
+               // Console.WriteLine(obsData.Epoch);
+               // Console.WriteLine(n);
+               // Console.WriteLine("++++++++++++++");
                 double[] El = new double[n];
                 //var omc = Extreme.Mathematics.Matrix.Create(n, 1, new double[0], MatrixElementOrder.ColumnMajor);
                 //var A = Extreme.Mathematics.Matrix.Create(n, 4, new double[0], MatrixElementOrder.ColumnMajor);
@@ -450,7 +454,7 @@ namespace Galileo
                                 A.SetValue((-(rotX[1] - pos[1])) / obsData.Satellites[sat[i]].Data[0], i, 1);
                                 A.SetValue((-(rotX[2] - pos[2])) / obsData.Satellites[sat[i]].Data[0], i, 2);
                                 A.SetValue(1, i, 3);
-                                Console.WriteLine("{0} | {1} | {2} | {3}",A.GetValue(i,0),A.GetValue(i,1),A.GetValue(i,2),A.GetValue(i,3));
+                               // Console.WriteLine("{0} | {1} | {2} | {3}",A.GetValue(i,0),A.GetValue(i,1),A.GetValue(i,2),A.GetValue(i,3));
                             }
                             else
                                 continue;
@@ -477,7 +481,7 @@ namespace Galileo
                     pos[2] += x[2];
                     pos[3] += x[3];
                 }
-                Console.WriteLine("----------------");
+              //  Console.WriteLine("----------------");
                 return pos;
             }
 
@@ -488,7 +492,7 @@ namespace Galileo
                 double[,] Pos = new double[4, noOfEpochs];
                 double[] pos;
                 
-                int i = 0;
+                int i = -1;
                 foreach(record ObsData in Obsfile.Entries)
                 {
                     
@@ -496,22 +500,34 @@ namespace Galileo
                     pos = recpo_ls(ObsData, timeOfWeek, eph);
                     if(pos[0] != 0)
                     {
+                        i++;
                         Pos.SetValue(pos[0], 0, i);
                         Pos.SetValue(pos[1], 1, i);
                         Pos.SetValue(pos[2], 2, i);
                         Pos.SetValue(pos[3], 3, i);
-                        i++;
                     }
                 }
-                double[] Row = Pos.GetRow(0);
-                Array.Resize(ref Row, i-1);
-                double x = Row.Average();
-                Row = Pos.GetRow(1); 
-                Array.Resize(ref Row, i-1);
-                double y = Row.Average();
-                Row = Pos.GetRow(2);
-                Array.Resize(ref Row, i-1);
-                double z = Row.Average();
+/*
+                for (int j = 0; j <100;j++)
+                {
+                    Console.WriteLine("{0}   |   {1}   |   {2}", Pos.GetRow(0)[j],Pos.GetRow(1)[j],Pos.GetRow(2)[j]);
+                }
+*/
+                List<double> lista = Pos.GetRow(0).ToList();
+                lista.RemoveAll(x => x < 4600000);
+                lista.RemoveAll(x => x > 4800000);
+                double x = lista.Average();
+
+                lista = Pos.GetRow(1).ToList();
+                lista.RemoveAll(x => x < 1010000);
+                lista.RemoveAll(x => x > 1030000);
+                double y = lista.Average();
+
+                lista = Pos.GetRow(2).ToList();
+                lista.RemoveAll(x => x < 4200000);
+                lista.RemoveAll(x => x > 4500000);
+                double z = lista.Average();
+
                 Console.WriteLine(x);
                 Console.WriteLine(y);
                 Console.WriteLine(z);
