@@ -47,46 +47,7 @@ namespace Galileo
             fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\obs.rnx");
 
             getPosition(fisier.ObservationFile, fisier.NavigationFile);
-            //DateTime reper = DateTime.SpecifyKind(DateTime.ParseExact("06.01.1980 00:00:00", "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture), DateTimeKind.Unspecified);
-            /*
-                        Sat sat1 = new Sat()
-                        {
-                            Observation = fisier.ObservationFile.Entries[60].Satellites[0],
-                            Navigation = fisier.NavigationFile.Entries[84]
-                        };
-
-                        Sat sat2 = new Sat()
-                        {
-                            Observation = fisier.ObservationFile.Entries[60].Satellites[1],
-                            Navigation = fisier.NavigationFile.Entries[83]
-                        };
-
-                        Sat sat3 = new Sat()
-                        {
-                            Observation = fisier.ObservationFile.Entries[60].Satellites[2],
-                            Navigation = fisier.NavigationFile.Entries[82]
-                        };
-
-                        Sat sat4 = new Sat()
-                        {
-                            Observation = fisier.ObservationFile.Entries[60].Satellites[3],
-                            Navigation = fisier.NavigationFile.Entries[81]
-                        };
-
-                        Sat sat5 = new Sat()
-                        {
-                            Observation = fisier.ObservationFile.Entries[60].Satellites[5],
-                            Navigation = fisier.NavigationFile.Entries[90]
-                        };
-
-                        List<Sat> Satellites = new List<Sat>();
-                        Satellites.Add(sat1);
-                        Satellites.Add(sat2);
-                        Satellites.Add(sat3);
-                        Satellites.Add(sat4);
-                        Satellites.Add(sat5);
-                        */
-
+           
             // Conversie din Epoch in JulDate
             // Meeus, Jean (1991) Astronomical Algorithms, Willmann-Bell, Richmond, Virginia, p. 59--62
             double julday(DateTime date)
@@ -95,7 +56,6 @@ namespace Galileo
                 double m = date.Month;
                 double d = date.Day;
                 double h = date.Hour + (double)date.Minute / 60 + (double)date.Second / 3600;
-                
                 //Jan and Feb are considered to be the 13th and 14th month of the preceding year
                 if (m <= 2)
                 {
@@ -103,7 +63,6 @@ namespace Galileo
                     m += 12;
                 }
                 //Julian day number 0 assigned to the day starting at noon on Monday, January 1, 4713 BC
-
                 return Math.Floor(365.25 * (y + 4716)) + Math.Floor(30.6001 * (m + 1)) + d + h / 24 - 1537.5;
             }
             
@@ -119,7 +78,6 @@ namespace Galileo
                 double day_of_week = (Math.Floor(julday + .5)) % 7;
                 //GPS standard epoch, JD = 2,444,244.5 (January 6th, 1980, 00:00 UTC)
                 double week = Math.Floor((julday - 2444244.5) / 7);
-
                 // We add + 1 as the GPS week starts at Saturday midnight
                 double sec_of_week = Math.Round(((d % 1) + day_of_week + 1) * 86400);
                 return new double[2] { week, sec_of_week };
@@ -136,6 +94,7 @@ namespace Galileo
             }
 
             //Computation of satellite coordinates (X,Y,Z) at time t
+            //Strang G, Borre K (1997) Linear algebra, geodesy, and GPS - pag 482-487
             double[] satPos (double t, EntryNavigation entry)
             {
                 double A = entry.Group2.sqrtA * entry.Group2.sqrtA;
@@ -174,6 +133,7 @@ namespace Galileo
             }
 
             //Returns rotated satellite ECEF coordinates due to Earth rotation during signal travel time
+            //Strang G, Borre K (1997) Linear algebra, geodesy, and GPS. - pag 492
             double[] e_r_corr(double travelTime, double[] Xsat)
             {
                 double omegaTau = omegaE * travelTime;
@@ -373,6 +333,7 @@ namespace Galileo
                 }
             }
             
+      
             //Computation of receiver position from pseudoranges using ordinary least-squares principle
            double[] recpo_ls(record obsData , double time, RinexNavigation eph)
             {
@@ -485,10 +446,67 @@ namespace Galileo
                 return pos;
             }
 
+            //conversion of degrees to degrees, mins, secs
+            double[] deg2dms(double deg)
+            {
+                bool negArg = false;
+                if (deg < 0)
+                {
+                    negArg = true;
+                    deg = -deg;
+                }
+                double intDeg = Math.Floor(deg);
+                double Decimal = deg - intDeg;
+                double minPart = Decimal * 60;
+                double min = Math.Floor(minPart);
+                double secPart = minPart - min;
+                double sec = secPart * 60;
+                if (sec==60)
+                {
+                    min++;
+                    sec = 0;
+                }
+                if (min==60)
+                {
+                    intDeg++;
+                    min = 0;
+                }
+                if (negArg == true)
+                    intDeg = -intDeg;
+                return new double[3]
+                {
+                    intDeg,min,sec
+                };
+            }
+
+            void cart2geo (double x, double y, double z)
+            {
+                double a = 6378137;
+                double f = 1 / 298.257223563;
+                double lambda = Math.Atan2(y, x);
+                double ex2 = (2 - f) * f / Math.Pow(1 - f, 2);
+                double c = a * Math.Sqrt(1 + ex2);
+                double phi = Math.Atan(z / ((Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)) * (1 - (2 - f)) * f)));
+                double h = 0.1;
+                double oldH = 0;
+                double N;
+                while (Math.Abs(h - oldH) > 1e-13)
+                {
+                    oldH = h;
+                    N = c / Math.Sqrt(1 + ex2 * Math.Pow(Math.Cos(phi), 2));
+                    phi = Math.Atan(z / ((Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)) * (1 - (2 - f) * f * N / (N + h)))));
+                    h = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)) / Math.Cos(phi) - N;
+                }
+                double[] phiRes = deg2dms(phi * 180 / pi);
+                double[] lambdaRes = deg2dms(lambda * 180 / pi);
+                Console.WriteLine("lat : {0}° {1}' {2}\"", phiRes[0], phiRes[1], phiRes[2]);
+                Console.WriteLine("long : {0}° {1}' {2}\"", lambdaRes[0], lambdaRes[1], lambdaRes[2]);
+            }
+
             void getPosition(RinexObservation Obsfile, RinexNavigation eph)
             {
                 int noOfEpochs = Obsfile.Entries.Count;
-                Console.WriteLine(noOfEpochs);
+               // Console.WriteLine(noOfEpochs);
                 double[,] Pos = new double[4, noOfEpochs];
                 double[] pos;
                 
@@ -528,10 +546,11 @@ namespace Galileo
                 lista.RemoveAll(x => x > 4500000);
                 double z = lista.Average();
 
-                Console.WriteLine(x);
-                Console.WriteLine(y);
-                Console.WriteLine(z);
+                Console.WriteLine("x : {0}",x);
+                Console.WriteLine("y : {0}",y);
+                Console.WriteLine("z : {0}",z);
 
+                cart2geo(x, y, z);
             }
 
             #region codeVechi
