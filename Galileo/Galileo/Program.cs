@@ -525,12 +525,12 @@ namespace Galileo
                         Pos.SetValue(pos[3], 3, i);
                     }
                 }
-/*
+
                 for (int j = 0; j <100;j++)
                 {
                     Console.WriteLine("{0}   |   {1}   |   {2}", Pos.GetRow(0)[j],Pos.GetRow(1)[j],Pos.GetRow(2)[j]);
                 }
-*/
+
                 List<double> lista = Pos.GetRow(0).ToList();
                 lista.RemoveAll(x => x < 4600000);
                 lista.RemoveAll(x => x > 4800000);
