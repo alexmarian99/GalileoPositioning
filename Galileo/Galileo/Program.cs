@@ -520,7 +520,7 @@ namespace Galileo
                     {
                         i++;
                         Pos.SetValue(pos[0], 0, i);
-                        Console.WriteLine(pos[0]);
+                        //Console.WriteLine(pos[0]);
                         Pos.SetValue(pos[1], 1, i);
                         Pos.SetValue(pos[2], 2, i);
                         Pos.SetValue(pos[3], 3, i);
