@@ -11,7 +11,8 @@
           "Accord.Math": "3.8.0",
           "Extreme.Numerics": "7.0.14",
           "GalileoLibrary": "1.0.0",
-          "MathNet.Numerics": "4.12.0"
+          "MathNet.Numerics": "4.12.0",
+          "Syncfusion.XlsIO.Net.Core": "18.3.0.42"
         },
         "runtime": {
           "Galileo.dll": {}
@@ -66,6 +67,43 @@
         "dependencies": {
           "System.Security.AccessControl": "4.5.0",
           "System.Security.Principal.Windows": "4.5.0"
+        }
+      },
+      "NETStandard.Library/2.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0"
+        }
+      },
+      "Syncfusion.Compression.Net.Core/18.3.0.42": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.Compression.Portable.dll": {
+            "assemblyVersion": "18.3200.0.42",
+            "fileVersion": "18.3200.0.42"
+          }
+        }
+      },
+      "Syncfusion.Licensing/18.3.0.42": {
+        "runtime": {
+          "lib/netcoreapp3.1/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "18.3.0.42",
+            "fileVersion": "18.3.0.42"
+          }
+        }
+      },
+      "Syncfusion.XlsIO.Net.Core/18.3.0.42": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.0",
+          "Syncfusion.Compression.Net.Core": "18.3.0.42",
+          "Syncfusion.Licensing": "18.3.0.42"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.XlsIO.Portable.dll": {
+            "assemblyVersion": "18.3200.0.42",
+            "fileVersion": "18.3200.0.42"
+          }
         }
       },
       "System.IO/4.3.0": {
@@ -134,7 +172,8 @@
       "GalileoLibrary/1.0.0": {
         "dependencies": {
           "Accord.Math": "3.8.0",
-          "Extreme.Numerics": "7.0.14"
+          "Extreme.Numerics": "7.0.14",
+          "Syncfusion.XlsIO.Net.Core": "18.3.0.42"
         },
         "runtime": {
           "GalileoLibrary.dll": {}
@@ -196,6 +235,34 @@
       "sha512": "sha512-+FWlwd//+Tt56316p00hVePBCouXyEzT86Jb3+AuRotTND0IYn0OO3obs1gnQEs/txEnt+rF2JBGLItTG+Be6A==",
       "path": "microsoft.win32.registry/4.5.0",
       "hashPath": "microsoft.win32.registry.4.5.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
+      "path": "netstandard.library/2.0.0",
+      "hashPath": "netstandard.library.2.0.0.nupkg.sha512"
+    },
+    "Syncfusion.Compression.Net.Core/18.3.0.42": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+EyW2OdK5gaZZHvQLii39YGAdljQ8y2YeWIfvDoytdS+8Y2zQUdoPBH8UmzlX0yI1dMi5sVCtQL/mCGaMREGPw==",
+      "path": "syncfusion.compression.net.core/18.3.0.42",
+      "hashPath": "syncfusion.compression.net.core.18.3.0.42.nupkg.sha512"
+    },
+    "Syncfusion.Licensing/18.3.0.42": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sMSMvTPdaq6QfEHdfn3VM8HsuXiKFb+egoGT5BXttLvbbhssEP57JFtAkYnU7tzpzawCS7h1HZRbIZxZCEl30g==",
+      "path": "syncfusion.licensing/18.3.0.42",
+      "hashPath": "syncfusion.licensing.18.3.0.42.nupkg.sha512"
+    },
+    "Syncfusion.XlsIO.Net.Core/18.3.0.42": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NSztLon1FHABwiGcMp1J5+l2kpcGVom+bl24Fv91ZnzfpibYE2kfg8+u52+VSnz+HtzWF5fcbYQfRbLjyXWW1w==",
+      "path": "syncfusion.xlsio.net.core/18.3.0.42",
+      "hashPath": "syncfusion.xlsio.net.core.18.3.0.42.nupkg.sha512"
     },
     "System.IO/4.3.0": {
       "type": "package",

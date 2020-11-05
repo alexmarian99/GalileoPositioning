@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Accord.Math" Version="3.8.0" />
     <PackageReference Include="Extreme.Numerics" Version="7.0.14" />
+    <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="18.3.0.42" />
   </ItemGroup>
 
 </Project>

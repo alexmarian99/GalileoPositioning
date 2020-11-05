@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "pd56GzIj/Lh+FkG+mlt427KmAf1Mz3NGilCcCDqi7fbdPA0UkNZocE3CjrEG8jmhgFrPmeNJ9ceyazdi5Ljing==",
+  "dgSpecHash": "ToFqxwEgA+SnpSxbgzoR2m/ZpNVG0vETh14e+Jb2ee9gVQwY51788v0piX7U/ZUBa9yeyvk/2ddp9TFM0+GmpQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,10 @@
     "C:\\Users\\alexn\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\netstandard.library\\2.0.0\\netstandard.library.2.0.0.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\syncfusion.compression.net.core\\18.3.0.42\\syncfusion.compression.net.core.18.3.0.42.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\syncfusion.licensing\\18.3.0.42\\syncfusion.licensing.18.3.0.42.nupkg.sha512",
+    "C:\\Users\\alexn\\.nuget\\packages\\syncfusion.xlsio.net.core\\18.3.0.42\\syncfusion.xlsio.net.core.18.3.0.42.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",

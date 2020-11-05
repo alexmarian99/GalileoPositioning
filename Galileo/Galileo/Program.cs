@@ -20,6 +20,8 @@ using MathNet.Numerics.LinearAlgebra.Complex;
 using System.Windows;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using System.Diagnostics;
+using Syncfusion.XlsIO;
+using System.Data;
 
 namespace Galileo
 {
@@ -43,11 +45,11 @@ namespace Galileo
 
             //Code
             Rinex fisier = new Rinex();
-            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\nav.rnx");
-            fisier.ReadFIle(@"C:\Users\alexn\Desktop\GNSS\obs.rnx");
+            fisier.ReadFIle(@"D:\GNSS\nav.rnx");
+            fisier.ReadFIle(@"D:\GNSS\obs.rnx");
 
             getPosition(fisier.ObservationFile, fisier.NavigationFile);
-           
+
             // Conversie din Epoch in JulDate
             // Meeus, Jean (1991) Astronomical Algorithms, Willmann-Bell, Richmond, Virginia, p. 59--62
             double julday(DateTime date)
@@ -65,7 +67,7 @@ namespace Galileo
                 //Julian day number 0 assigned to the day starting at noon on Monday, January 1, 4713 BC
                 return Math.Floor(365.25 * (y + 4716)) + Math.Floor(30.6001 * (m + 1)) + d + h / 24 - 1537.5;
             }
-            
+
             //Conversie in GPS Time ( return double[2] = { week,  sec_of_week  }  )
             double[] gps_time(double julday)
             {
@@ -83,7 +85,7 @@ namespace Galileo
                 return new double[2] { week, sec_of_week };
             }
 
-            double check_t (double t)
+            double check_t(double t)
             {
                 //halfWeek = 302400;
                 if (t > 302400)
@@ -95,7 +97,7 @@ namespace Galileo
 
             //Computation of satellite coordinates (X,Y,Z) at time t
             //Strang G, Borre K (1997) Linear algebra, geodesy, and GPS - pag 482-487
-            double[] satPos (double t, EntryNavigation entry)
+            double[] satPos(double t, EntryNavigation entry)
             {
                 double A = entry.Group2.sqrtA * entry.Group2.sqrtA;
                 double tk = check_t(t - entry.Group3.Toe);
@@ -104,7 +106,7 @@ namespace Galileo
                 double M = entry.Group1.M0 + n * tk;
                 M = (M + 2 * pi) % (2 * pi);
                 double E = M;
-                for (int j=0; j<10; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     double E_old = E;
                     E = M + entry.Group2.e * Math.Sin(E);
@@ -137,9 +139,9 @@ namespace Galileo
             double[] e_r_corr(double travelTime, double[] Xsat)
             {
                 double omegaTau = omegaE * travelTime;
-                double[,] R3 = new double[3, 3] { { Math.Cos(omegaTau), Math.Sin(omegaTau), 0 }, { -Math.Sin(omegaTau), Math.Cos(omegaTau), 0 }, { 0,0,1 } };
-                double[] XsatRot = { 0,0,0 };
-                for(int i=0;i<3;i++)
+                double[,] R3 = new double[3, 3] { { Math.Cos(omegaTau), Math.Sin(omegaTau), 0 }, { -Math.Sin(omegaTau), Math.Cos(omegaTau), 0 }, { 0, 0, 1 } };
+                double[] XsatRot = { 0, 0, 0 };
+                for (int i = 0; i < 3; i++)
                 {
                     XsatRot[0] += R3[0, i] * Xsat[i];
                     XsatRot[1] += R3[1, i] * Xsat[i];
@@ -196,9 +198,9 @@ namespace Galileo
                         dPhi, dlambda, h
                     };
                 }
-                    
+
                 h = r - a * (1 - sinPhi * sinPhi / finv);
-                for (int i=0;i<maxIt;i++)
+                for (int i = 0; i < maxIt; i++)
                 {
                     sinPhi = Math.Sin(dPhi);
                     double cosPhi = Math.Cos(dPhi);
@@ -218,7 +220,7 @@ namespace Galileo
             }
 
             //Transformation of vector dx into topocentric coordinate system with origin at X.
-            double[] topocent (double[] x, double[] dx)
+            double[] topocent(double[] x, double[] dx)
             {
                 double dtr = pi / 180;
                 double[] data = toGeod(6378137, 298.257223563, x[0], x[1], x[2]);
@@ -239,22 +241,22 @@ namespace Galileo
                 F[2, 1] = cb;
                 F[2, 2] = sb;
                 double[,] Ftrans = F.Transpose();
-                double[] vect = { 0,0,0 };
-                for(int i=0;i<3;i++)
+                double[] vect = { 0, 0, 0 };
+                for (int i = 0; i < 3; i++)
                 {
-                    vect[0] += Ftrans[0,i] * dx[i];
-                    vect[1] += Ftrans[1,i] * dx[i];
-                    vect[2] += Ftrans[2,i] * dx[i];
+                    vect[0] += Ftrans[0, i] * dx[i];
+                    vect[1] += Ftrans[1, i] * dx[i];
+                    vect[2] += Ftrans[2, i] * dx[i];
                 }
-/*
-                var F = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
-                {
-                   -s1, -sb*c1, cb*c1,
-                   c1, -sb*s1, cb*s1,
-                   0, cb, sb
-                }, MatrixElementOrder.ColumnMajor);
-                var vect = F.GetInverse().Multiply(dx);
-*/
+                /*
+                                var F = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
+                                {
+                                   -s1, -sb*c1, cb*c1,
+                                   c1, -sb*s1, cb*s1,
+                                   0, cb, sb
+                                }, MatrixElementOrder.ColumnMajor);
+                                var vect = F.GetInverse().Multiply(dx);
+                */
                 double E = vect[0];
                 double N = vect[1];
                 double U = vect[2];
@@ -269,7 +271,7 @@ namespace Galileo
                 else
                 {
                     Az = Math.Atan2(E, N) / dtr;
-                    El = Math.Atan2(U, horDis) / dtr;   
+                    El = Math.Atan2(U, horDis) / dtr;
                 }
                 if (Az < 0)
                     Az += 360;
@@ -281,9 +283,9 @@ namespace Galileo
             }
 
             //Calculation of tropospheric correction.
-            double tropo (double sinel, double  hsta, double p, double tkel, double hum, double hp, double htkel, double hhum)
+            double tropo(double sinel, double hsta, double p, double tkel, double hum, double hp, double htkel, double hhum)
             {
-                double ae = 6378.137;
+                double ae = 6378137;
                 double b0 = 7.839257e-5;
                 double tlapse = -6.5;
                 double tkhum = tkel + tlapse * (hhum - htkel);
@@ -303,7 +305,7 @@ namespace Galileo
                 double htop = 1.1385e-5 / refsea;
                 refsea *= psea;
                 double Ref = refsea * Math.Pow((htop - hsta) / htop, 4);
-                for(; ; )
+                for (; ; )
                 {
                     double rtop = Math.Pow((ae + htop), 2) - Math.Pow(ae + hsta, 2) * (1 - Math.Pow(sinel, 2));
                     if (rtop < 0)
@@ -315,13 +317,13 @@ namespace Galileo
                     for (int i = 0; i < 8; i++)
                         rn[i] = Math.Pow(rtop, i + 2);
                     double[] alpha = { 2 * a, 2 * Math.Pow(a, 2) + 4 * b / 3, a * (Math.Pow(a, 2) + 3 * b), Math.Pow(a, 4) / 5 + 2.4 * Math.Pow(a, 2) * b + 1.2 * Math.Pow(b, 2), 2 * a * b * (Math.Pow(a, 2) + 3 * b) / 3, Math.Pow(b, 2) * (Math.Pow(a, 2) * 6 + 4 * b) * 1.428571e-1, 0, 0 };
-                    if (Math.Pow(b,2)>1e-35)
+                    if (Math.Pow(b, 2) > 1e-35)
                     {
                         alpha[6] = a * Math.Pow(b, 3) / 2;
                         alpha[7] = Math.Pow(b, 4) / 9;
                     }
                     double dr = rtop;
-                    for ( int i=0; i<8; i++)
+                    for (int i = 0; i < 8; i++)
                         dr += alpha[i] * rn[i];
                     tropo += dr * Ref * 1000;
                     if (done == true)
@@ -332,10 +334,9 @@ namespace Galileo
                     Ref = refsea * e0sea * Math.Pow((htop - hsta) / htop, 4);
                 }
             }
-            
-      
+
             //Computation of receiver position from pseudoranges using ordinary least-squares principle
-           double[] recpo_ls(record obsData , double time, RinexNavigation eph)
+            double[] recpo_ls(record obsData, double time, RinexNavigation eph)
             {
                 //obs[] primul pseudorange de la toti satelitii dintr o epoca
                 double[] pos = { 0, 0, 0, 0 };
@@ -344,11 +345,11 @@ namespace Galileo
                 double dtr = pi / 180;
                 int n = 0;
                 int[] sat = new int[obsData.Satellites.Count];
-                for(int i=0;i<obsData.Satellites.Count;i++)
+                for (int i = 0; i < obsData.Satellites.Count; i++)
                 {
                     for (int j = 0; j < eph.Entries.Count; j++)
                         if (gps_time(julday(eph.Entries[j].Toc))[1] == time && obsData.Satellites[i].Name == eph.Entries[j].Name)
-                        {   
+                        {
                             sat.SetValue(i, n);
                             n++;
                             break;
@@ -359,25 +360,25 @@ namespace Galileo
                     {
                        0,0,0,0
                     };
-               // Console.WriteLine(obsData.Epoch);
-               // Console.WriteLine(n);
-               // Console.WriteLine("++++++++++++++");
+                // Console.WriteLine(obsData.Epoch);
+                // Console.WriteLine(n);
+                // Console.WriteLine("++++++++++++++");
                 double[] El = new double[n];
                 //var omc = Extreme.Mathematics.Matrix.Create(n, 1, new double[0], MatrixElementOrder.ColumnMajor);
                 //var A = Extreme.Mathematics.Matrix.Create(n, 4, new double[0], MatrixElementOrder.ColumnMajor);
                 double[,] A = new double[n, 4];
                 double[,] omc = new double[n, 1];
-                for (int iter = 0; iter<6;iter++)
-                {       
-                   // A.Clear();
-                   // omc.Clear();
-                    for (int i = 0; i<n; i++)
+                for (int iter = 0; iter < 6; iter++)
+                {
+                    // A.Clear();
+                    // omc.Clear();
+                    for (int i = 0; i < n; i++)
                     {
-                        
+
                         //cautare eph corespunzatoare sat din obs file
                         double travelTime;
                         double rho2;
-                        for(int j=0;j<eph.Entries.Count;j++)
+                        for (int j = 0; j < eph.Entries.Count; j++)
                         {
                             if (gps_time(julday(eph.Entries[j].Toc))[1] == time && obsData.Satellites[sat[i]].Name == eph.Entries[j].Name)
                             {
@@ -415,7 +416,7 @@ namespace Galileo
                                 A.SetValue((-(rotX[1] - pos[1])) / obsData.Satellites[sat[i]].Data[0], i, 1);
                                 A.SetValue((-(rotX[2] - pos[2])) / obsData.Satellites[sat[i]].Data[0], i, 2);
                                 A.SetValue(1, i, 3);
-                               // Console.WriteLine("{0} | {1} | {2} | {3}",A.GetValue(i,0),A.GetValue(i,1),A.GetValue(i,2),A.GetValue(i,3));
+                                // Console.WriteLine("{0} | {1} | {2} | {3}",A.GetValue(i,0),A.GetValue(i,1),A.GetValue(i,2),A.GetValue(i,3));
                             }
                             else
                                 continue;
@@ -424,7 +425,7 @@ namespace Galileo
                     }
                     double[] x = { 0, 0, 0, 0 };
                     double[,] Ainv = A.PseudoInverse();
-                    for(int i =0;i<omc.Length;i++)
+                    for (int i = 0; i < omc.Length; i++)
                     {
                         x[0] += Ainv[0, i] * omc[i, 0];
                         x[1] += Ainv[1, i] * omc[i, 0];
@@ -442,10 +443,9 @@ namespace Galileo
                     pos[2] += x[2];
                     pos[3] += x[3];
                 }
-              //  Console.WriteLine("----------------");
+                //  Console.WriteLine("----------------");
                 return pos;
             }
-
             //conversion of degrees to degrees, mins, secs
             double[] deg2dms(double deg)
             {
@@ -461,12 +461,12 @@ namespace Galileo
                 double min = Math.Floor(minPart);
                 double secPart = minPart - min;
                 double sec = secPart * 60;
-                if (sec==60)
+                if (sec == 60)
                 {
                     min++;
                     sec = 0;
                 }
-                if (min==60)
+                if (min == 60)
                 {
                     intDeg++;
                     min = 0;
@@ -479,7 +479,7 @@ namespace Galileo
                 };
             }
 
-            void cart2geo (double x, double y, double z)
+            void cart2geo(double x, double y, double z)
             {
                 double a = 6378137;
                 double f = 1 / 298.257223563;
@@ -506,29 +506,30 @@ namespace Galileo
             void getPosition(RinexObservation Obsfile, RinexNavigation eph)
             {
                 int noOfEpochs = Obsfile.Entries.Count;
-               // Console.WriteLine(noOfEpochs);
+                // Console.WriteLine(noOfEpochs);
                 double[,] Pos = new double[4, noOfEpochs];
                 double[] pos;
-                
+
                 int i = -1;
-                foreach(record ObsData in Obsfile.Entries)
+                foreach (record ObsData in Obsfile.Entries)
                 {
-                    
+
                     double timeOfWeek = gps_time(julday(ObsData.Epoch))[1];
                     pos = recpo_ls(ObsData, timeOfWeek, eph);
-                    if(pos[0] != 0)
+                    if (pos[0] != 0)
                     {
                         i++;
                         Pos.SetValue(pos[0], 0, i);
+                        Console.WriteLine(pos[0]);
                         Pos.SetValue(pos[1], 1, i);
                         Pos.SetValue(pos[2], 2, i);
                         Pos.SetValue(pos[3], 3, i);
                     }
                 }
 
-                for (int j = 0; j <100;j++)
+                for (int j = 0; j < 120; j++)
                 {
-                    Console.WriteLine("{0}   |   {1}   |   {2}", Pos.GetRow(0)[j],Pos.GetRow(1)[j],Pos.GetRow(2)[j]);
+                   // Console.WriteLine("{0}   |   {1}   |   {2}", Pos.GetRow(0)[j], Pos.GetRow(1)[j], Pos.GetRow(2)[j]);
                 }
 
                 List<double> lista = Pos.GetRow(0).ToList();
@@ -546,11 +547,15 @@ namespace Galileo
                 lista.RemoveAll(x => x > 4500000);
                 double z = lista.Average();
 
-                Console.WriteLine("x : {0}",x);
-                Console.WriteLine("y : {0}",y);
-                Console.WriteLine("z : {0}",z);
+                Console.WriteLine("x : {0}", x);
+                Console.WriteLine("y : {0}", y);
+                Console.WriteLine("z : {0}", z);
 
                 cart2geo(x, y, z);
+
+                File.WriteAllLines(@"D:\GNSS\x.txt", Pos.GetRow(0).Select(d => d.ToString()));
+                File.WriteAllLines(@"D:\GNSS\y.txt", Pos.GetRow(1).Select(d => d.ToString()));
+                File.WriteAllLines(@"D:\GNSS\z.txt", Pos.GetRow(2).Select(d => d.ToString()));
             }
 
             #region codeVechi
