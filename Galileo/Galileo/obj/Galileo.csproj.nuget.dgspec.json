@@ -1,23 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj": {}
+    "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
+    "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
         "projectName": "GalileoLibrary",
-        "projectPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
+        "projectPath": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
         "packagesPath": "C:\\Users\\alexn\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\obj\\",
+        "outputPath": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\alexn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -26,10 +28,12 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/brolakehub/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -41,6 +45,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Accord.Math": {
               "target": "Package",
@@ -70,24 +75,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj": {
+    "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+        "projectUniqueName": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
         "projectName": "Galileo",
-        "projectPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
+        "projectPath": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\Galileo.csproj",
         "packagesPath": "C:\\Users\\alexn\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
+        "outputPath": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\Galileo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\alexn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -96,13 +103,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/brolakehub/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
-                "projectPath": "C:\\Users\\alexn\\Source\\Repos\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
+              "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj": {
+                "projectPath": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj"
               }
             }
           }
@@ -115,6 +124,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Accord.Math": {
               "target": "Package",
@@ -148,7 +158,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
