@@ -45,8 +45,8 @@ namespace Galileo
 
             //Code
             Rinex fisier = new Rinex();
-            fisier.ReadFIle(@"D:\GNSS\nav.rnx");
-            fisier.ReadFIle(@"D:\GNSS\obs.rnx");
+            fisier.ReadFIle(@"D:\GNSS\250221.sbL");
+            fisier.ReadFIle(@"D:\GNSS\250221.sbO");
 
             getPosition(fisier.ObservationFile, fisier.NavigationFile);
 
@@ -147,15 +147,6 @@ namespace Galileo
                     XsatRot[1] += R3[1, i] * Xsat[i];
                     XsatRot[2] += R3[2, i] * Xsat[i];
                 }
-                /*
-                var R3 = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
-                    {
-                     Math.Cos(omegaTau), Math.Sin(omegaTau), 0,
-                     -Math.Sin(omegaTau), Math.Cos(omegaTau), 0,
-                     0, 0 , 1
-                }, MatrixElementOrder.ColumnMajor);
-                var XsatRot = R3.Multiply(Xsat);
-                */
                 return new double[3]
                 {
                     XsatRot[0], XsatRot[1], XsatRot[2]
@@ -220,6 +211,9 @@ namespace Galileo
             }
 
             //Transformation of vector dx into topocentric coordinate system with origin at X.
+            //D    vector length in units like the input
+            //Az   azimuth from north positive clockwise, degrees
+            //El   elevation angle, degrees
             double[] topocent(double[] x, double[] dx)
             {
                 double dtr = pi / 180;
@@ -248,15 +242,6 @@ namespace Galileo
                     vect[1] += Ftrans[1, i] * dx[i];
                     vect[2] += Ftrans[2, i] * dx[i];
                 }
-                /*
-                                var F = Extreme.Mathematics.Matrix.Create(3, 3, new double[]
-                                {
-                                   -s1, -sb*c1, cb*c1,
-                                   c1, -sb*s1, cb*s1,
-                                   0, cb, sb
-                                }, MatrixElementOrder.ColumnMajor);
-                                var vect = F.GetInverse().Multiply(dx);
-                */
                 double E = vect[0];
                 double N = vect[1];
                 double U = vect[2];
@@ -282,7 +267,15 @@ namespace Galileo
                 };
             }
 
-            //Calculation of tropospheric correction.
+            // Calculation of tropospheric correction.
+            // sinel    sin of elevation angle of satellite
+            // hsta     height of station in km
+            // p        atmospheric pressure in mb at height hp
+            // tkel     surface temperature in degrees Kelvin at height htkel
+            // hum      humidity in % at height hhum
+            // hp       height of pressure measurement in km
+            // htkel    height of temperature measurement in km
+            // hhum     height of humidity measurement in km
             double tropo(double sinel, double hsta, double p, double tkel, double hum, double hp, double htkel, double hhum)
             {
                 double ae = 6378137;
@@ -336,8 +329,9 @@ namespace Galileo
             }
 
             //Computation of receiver position from pseudoranges using ordinary least-squares principle
-            double[] recpo_ls(record obsData, double time, RinexNavigation eph)
+            double[,] recpo_ls(record obsData, double time, RinexNavigation eph)
             {
+                //Console.WriteLine("+++++++++++++++++ | {0}", obsData.Epoch.TimeOfDay);
                 //obs[] primul pseudorange de la toti satelitii dintr o epoca
                 double[] pos = { 0, 0, 0, 0 };
                 //double GDOP;
@@ -348,39 +342,34 @@ namespace Galileo
                 for (int i = 0; i < obsData.Satellites.Count; i++)
                 {
                     for (int j = 0; j < eph.Entries.Count; j++)
-                        if (gps_time(julday(eph.Entries[j].Toc))[1] == time && obsData.Satellites[i].Name == eph.Entries[j].Name)
+                    {
+                        if (gps_time(julday(eph.Entries[j].Toc.AddHours(2)))[1] >= time && gps_time(julday(eph.Entries[j].Toc))[1] <= time && obsData.Satellites[i].Name == eph.Entries[j].Name)
                         {
                             sat.SetValue(i, n);
                             n++;
                             break;
                         }
+                    }  
                 }
                 if (n < 4)
-                    return new double[4]
+                    return new double[1,1]
                     {
-                       0,0,0,0
+                       { 0 }
                     };
-                // Console.WriteLine(obsData.Epoch);
-                // Console.WriteLine(n);
-                // Console.WriteLine("++++++++++++++");
                 double[] El = new double[n];
-                //var omc = Extreme.Mathematics.Matrix.Create(n, 1, new double[0], MatrixElementOrder.ColumnMajor);
-                //var A = Extreme.Mathematics.Matrix.Create(n, 4, new double[0], MatrixElementOrder.ColumnMajor);
                 double[,] A = new double[n, 4];
                 double[,] omc = new double[n, 1];
+                double[,] satPosition = new double[n, 10];
                 for (int iter = 0; iter < 6; iter++)
                 {
-                    // A.Clear();
-                    // omc.Clear();
                     for (int i = 0; i < n; i++)
                     {
-
                         //cautare eph corespunzatoare sat din obs file
                         double travelTime;
                         double rho2;
                         for (int j = 0; j < eph.Entries.Count; j++)
                         {
-                            if (gps_time(julday(eph.Entries[j].Toc))[1] == time && obsData.Satellites[sat[i]].Name == eph.Entries[j].Name)
+                            if (gps_time(julday(eph.Entries[j].Toc.AddHours(2)))[1] >= time && gps_time(julday(eph.Entries[j].Toc))[1] <= time && obsData.Satellites[i].Name == eph.Entries[j].Name)
                             {
                                 double txRaw = time - obsData.Satellites[sat[i]].Data[0] / v_light;
                                 double dt = check_t(txRaw - eph.Entries[j].Group3.Toe);
@@ -390,6 +379,9 @@ namespace Galileo
                                 tcorr = (eph.Entries[j].Group0.a2 * dt + eph.Entries[j].Group0.a1 * dt + eph.Entries[j].Group0.a0);
                                 txGAL = txRaw - tcorr;
                                 double[] X = satPos(txGAL, eph.Entries[j]);
+                                satPosition[i, 0] = X[0];
+                                satPosition[i, 1] = X[1];
+                                satPosition[i, 2] = X[2];
                                 double[] rotX;
                                 double trop;
                                 if (iter == 0)
@@ -403,13 +395,17 @@ namespace Galileo
                                     rho2 = Math.Pow(X[0] - pos[0], 2) + Math.Pow(X[1] - pos[1], 2) + Math.Pow(X[2] - pos[2], 2);
                                     travelTime = Math.Sqrt(rho2) / v_light;
                                     rotX = e_r_corr(travelTime, X);
+                                    satPosition[i, 3] = rotX[0];
+                                    satPosition[i, 4] = rotX[1];
+                                    satPosition[i, 5] = rotX[2];
                                     rho2 = Math.Pow(rotX[0] - pos[0], 2) + Math.Pow(rotX[1] - pos[1], 2) + Math.Pow(rotX[2] - pos[2], 2);
                                     double el = topocent(new double[] { pos[0], pos[1], pos[2] }, new double[] { rotX[0] - pos[0], rotX[1] - pos[1], rotX[2] - pos[2] })[1];
                                     if (iter == 5)
                                         El[i] = el;
                                     trop = tropo(Math.Sin(el * dtr), 0.0, 1013.0, 293.0, 50.0, 0.0, 0.0, 0.0);
+                                    satPosition[i, 9] = trop;
                                 }
-                                omc.SetValue(obsData.Satellites[sat[i]].Data[0] - Norm.Frobenius(new double[,] { { rotX[0] - pos[0], rotX[1] - pos[1], rotX[2] - pos[2] }, { 0, 0, 0 } }) - pos[3] + v_light * tcorr - trop, i, 0);
+                                omc.SetValue(obsData.Satellites[sat[i]].Data[0] - Norm.Frobenius(new double[,] { { rotX[0] - pos[0], rotX[1] - pos[1], rotX[2] - pos[2] }, { 0, 0, 0 } }) - pos[3] + v_light * tcorr, i, 0);
                                 //double val =  Math.Sqrt(Math.Pow(rotX[0] - pos[0], 2) + Math.Pow(rotX[1] - pos[1], 2) + Math.Pow(rotX[2] - pos[2], 2)) - pos[4] + v_light * tcorr - trop;
                                 //omc.SetValue(val, i, 0);
                                 A.SetValue((-(rotX[0] - pos[0])) / obsData.Satellites[sat[i]].Data[0], i, 0);
@@ -432,19 +428,18 @@ namespace Galileo
                         x[2] += Ainv[2, i] * omc[i, 0];
                         x[3] += Ainv[3, i] * omc[i, 0];
                     }
-
-                    /*double[,] x = A.PseudoInverse().Multiply(omc);
-                     pos[0] += Convert.ToDouble(x.GetValue(0, 0));
-                     pos[1] += Convert.ToDouble(x.GetValue(0, 1));
-                     pos[2] += Convert.ToDouble(x.GetValue(0, 2));
-                     pos[3] += Convert.ToDouble(x.GetValue(0, 3));*/
                     pos[0] += x[0];
                     pos[1] += x[1];
                     pos[2] += x[2];
                     pos[3] += x[3];
                 }
-                //  Console.WriteLine("----------------");
-                return pos;
+                for (int i = 0; i<n ;i++)
+                {
+                    satPosition[i, 6] = pos[0];
+                    satPosition[i, 7] = pos[1];
+                    satPosition[i, 8] = pos[2];
+                }
+                return satPosition;
             }
             //conversion of degrees to degrees, mins, secs
             double[] deg2dms(double deg)
@@ -506,56 +501,25 @@ namespace Galileo
             void getPosition(RinexObservation Obsfile, RinexNavigation eph)
             {
                 int noOfEpochs = Obsfile.Entries.Count;
-                // Console.WriteLine(noOfEpochs);
                 double[,] Pos = new double[4, noOfEpochs];
-                double[] pos;
-
-                int i = -1;
+                double[,] pos;
                 foreach (record ObsData in Obsfile.Entries)
                 {
-
                     double timeOfWeek = gps_time(julday(ObsData.Epoch))[1];
                     pos = recpo_ls(ObsData, timeOfWeek, eph);
-                    if (pos[0] != 0)
+                    if (pos[0,0] != 0)
                     {
-                        i++;
-                        Pos.SetValue(pos[0], 0, i);
-                        //Console.WriteLine(pos[0]);
-                        Pos.SetValue(pos[1], 1, i);
-                        Pos.SetValue(pos[2], 2, i);
-                        Pos.SetValue(pos[3], 3, i);
+                        for (int i = 0; i < pos.GetLength(0); i++)
+                            using (StreamWriter sw = File.AppendText(@"D:\GNSS\test.txt"))
+                            {
+                                sw.Write("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} \n", pos[i, 0].ToString(), pos[i, 1].ToString(), pos[i, 2].ToString(), pos[i, 3].ToString(), pos[i, 4].ToString(), pos[i, 5].ToString(), pos[i, 6].ToString(), pos[i, 7].ToString(), pos[i, 8].ToString(), pos[i, 9].ToString());
+                            }
+                        // 0 , 1 , 2 - satellite position
+                        // 3 , 4 , 5 - rotated satellite ECEF coordinates due to Earth rotation during signal travel time
+                        // 6 , 7 , 8 - receiver position (corrected)
+                        // 9         - tropo correction
                     }
                 }
-
-                for (int j = 0; j < 120; j++)
-                {
-                   // Console.WriteLine("{0}   |   {1}   |   {2}", Pos.GetRow(0)[j], Pos.GetRow(1)[j], Pos.GetRow(2)[j]);
-                }
-
-                List<double> lista = Pos.GetRow(0).ToList();
-                lista.RemoveAll(x => x < 4600000);
-                lista.RemoveAll(x => x > 4800000);
-                double x = lista.Average();
-
-                lista = Pos.GetRow(1).ToList();
-                lista.RemoveAll(x => x < 1010000);
-                lista.RemoveAll(x => x > 1030000);
-                double y = lista.Average();
-
-                lista = Pos.GetRow(2).ToList();
-                lista.RemoveAll(x => x < 4200000);
-                lista.RemoveAll(x => x > 4500000);
-                double z = lista.Average();
-
-                Console.WriteLine("x : {0}", x);
-                Console.WriteLine("y : {0}", y);
-                Console.WriteLine("z : {0}", z);
-
-                cart2geo(x, y, z);
-
-                File.WriteAllLines(@"D:\GNSS\x.txt", Pos.GetRow(0).Select(d => d.ToString()));
-                File.WriteAllLines(@"D:\GNSS\y.txt", Pos.GetRow(1).Select(d => d.ToString()));
-                File.WriteAllLines(@"D:\GNSS\z.txt", Pos.GetRow(2).Select(d => d.ToString()));
             }
 
             #region codeVechi

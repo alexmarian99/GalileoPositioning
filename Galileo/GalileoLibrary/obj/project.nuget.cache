@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kB1nNHdc/vgXebMIizGk3vcmQ34dU9Gsc6cEdlh/lgUY3tuQglwrVJKIsCMW+MohIgrIa1BDE8TjIdd76OIqAA==",
+  "dgSpecHash": "Kn5JhTfiSr6ycQKNeDWXLgLEzs42f+9I72lQgS1EHZv68xFAzdiiXJ7QW0BTMAFQZCxocpMVBF7AOouuSYnLUg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alexn\\source\\repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
+  "projectFilePath": "C:\\Users\\alexn\\Source\\Repos\\alexmarian99\\GalileoPositioning\\Galileo\\GalileoLibrary\\GalileoLibrary.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alexn\\.nuget\\packages\\accord\\3.8.0\\accord.3.8.0.nupkg.sha512",
     "C:\\Users\\alexn\\.nuget\\packages\\accord.math\\3.8.0\\accord.math.3.8.0.nupkg.sha512",
